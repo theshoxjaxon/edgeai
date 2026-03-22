@@ -55,13 +55,13 @@ export function StorySection() {
   return (
     <section
       ref={sectionRef}
-      className="relative w-full py-24 lg:py-32 bg-[#05140A]"
+      className="relative w-full py-24 lg:py-32 bg-[#011627]"
     >
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-5">
         <div className="absolute inset-0" style={{
-          backgroundImage: `linear-gradient(90deg, #8FBC8F 1px, transparent 1px),
-                           linear-gradient(#8FBC8F 1px, transparent 1px)`,
+          backgroundImage: `linear-gradient(90deg, #00F5FF 1px, transparent 1px),
+                           linear-gradient(#00F5FF 1px, transparent 1px)`,
           backgroundSize: '50px 50px'
         }} />
       </div>
@@ -75,14 +75,14 @@ export function StorySection() {
             transition={{ duration: 0.8, ease: [0.215, 0.61, 0.355, 1] }}
             className="text-center mb-16"
           >
-            <span className="inline-block px-4 py-2 rounded-full bg-[#C9A227]/10 text-[#C9A227] text-sm font-medium mb-6">
+            <span className="inline-block px-4 py-2 rounded-full bg-[#CCFF00]/10 text-[#CCFF00] text-sm font-medium mb-6">
               {featuresConfig.label}
             </span>
             <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-4">
               {featuresConfig.heading.map((line, i) => (
-                <span key={i} className="text-[#F5F5DC] block">{line}</span>
+                <span key={i} className="text-[#FFFFFF] block">{line}</span>
               ))}
-              <span className="text-[#C9A227] block">{featuresConfig.headingAccent}</span>
+              <span className="text-[#CCFF00] block">{featuresConfig.headingAccent}</span>
             </h2>
           </motion.div>
 
@@ -96,7 +96,7 @@ export function StorySection() {
               className="space-y-6"
             >
               {featuresConfig.paragraphs.map((paragraph, index) => (
-                <p key={index} className="text-[#8FBC8F] text-lg leading-relaxed">
+                <p key={index} className="text-[#00F5FF] text-lg leading-relaxed">
                   {paragraph}
                 </p>
               ))}
@@ -115,13 +115,13 @@ export function StorySection() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={isInView ? { opacity: 1, y: 0 } : {}}
                   transition={{ duration: 0.5, delay: 0.5 + index * 0.1 }}
-                  className="group p-5 rounded-xl bg-[#0D2818]/50 border border-[#8FBC8F]/10 hover:border-[#C9A227]/30 hover:bg-[#0D2818] transition-all duration-300"
+                  className="group p-5 rounded-xl bg-[#011627]/50 border border-[#00F5FF]/10 hover:border-[#CCFF00]/30 hover:bg-[#011627] transition-all duration-300"
                 >
-                  <div className="w-10 h-10 rounded-lg bg-[#C9A227]/10 flex items-center justify-center mb-3 group-hover:bg-[#C9A227]/20 transition-colors">
-                    <feature.icon className="w-5 h-5 text-[#C9A227]" />
+                  <div className="w-10 h-10 rounded-lg bg-[#CCFF00]/10 flex items-center justify-center mb-3 group-hover:bg-[#CCFF00]/20 transition-colors">
+                    <feature.icon className="w-5 h-5 text-[#CCFF00]" />
                   </div>
-                  <h3 className="text-[#F5F5DC] font-semibold mb-1">{feature.title}</h3>
-                  <p className="text-[#8FBC8F] text-sm">{feature.description}</p>
+                  <h3 className="text-[#FFFFFF] font-semibold mb-1">{feature.title}</h3>
+                  <p className="text-[#00F5FF] text-sm">{feature.description}</p>
                 </motion.div>
               ))}
             </motion.div>
@@ -137,12 +137,12 @@ export function StorySection() {
             {featuresConfig.stats.map((stat, index) => (
               <div
                 key={index}
-                className="text-center p-6 rounded-xl bg-gradient-to-br from-[#0D2818] to-[#0a1f12] border border-[#8FBC8F]/10"
+                className="text-center p-6 rounded-xl bg-gradient-to-br from-[#011627] to-[#0A2A3A] border border-[#00F5FF]/10"
               >
-                <p className="text-4xl lg:text-5xl font-bold text-[#C9A227] mb-2">
+                <p className="text-4xl lg:text-5xl font-bold text-[#CCFF00] mb-2">
                   <AnimatedCounter value={stat.value} />
                 </p>
-                <p className="text-[#8FBC8F] text-sm uppercase tracking-wider">{stat.label}</p>
+                <p className="text-[#00F5FF] text-sm uppercase tracking-wider">{stat.label}</p>
               </div>
             ))}
           </motion.div>

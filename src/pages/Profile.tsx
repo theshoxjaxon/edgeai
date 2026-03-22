@@ -5,6 +5,8 @@ import {
   ChevronRight, Check, AlertTriangle, Trophy,
   Smartphone, Globe, Moon, LogOut
 } from 'lucide-react';
+import { useQuery } from '@tanstack/react-query';
+import { api } from '../lib/api';
 
 interface ProfileProps {
   onLogout: () => void;
@@ -21,6 +23,15 @@ export function Profile({ onLogout }: ProfileProps) {
     newsletter: false,
   });
 
+  const { data: profile, isLoading } = useQuery({
+    queryKey: ['profile'],
+    queryFn: api.getUserProfile
+  });
+
+  if (isLoading || !profile) {
+    return <div className="min-h-screen bg-[#011627] pt-20 flex items-center justify-center text-[#CCFF00]">Loading profile...</div>;
+  }
+
   const tabs = [
     { id: 'general', label: 'General', icon: User },
     { id: 'subscription', label: 'Subscription', icon: CreditCard },
@@ -30,7 +41,7 @@ export function Profile({ onLogout }: ProfileProps) {
   ];
 
   return (
-    <div className="min-h-screen bg-[#05140A] pt-20">
+    <div className="min-h-screen bg-[#011627] pt-20">
       <div className="w-full px-4 sm:px-6 lg:px-8 xl:px-12 py-8">
         <div className="max-w-7xl mx-auto">
           {/* Header */}
@@ -39,8 +50,8 @@ export function Profile({ onLogout }: ProfileProps) {
             animate={{ opacity: 1, y: 0 }}
             className="mb-8"
           >
-            <h1 className="text-3xl font-bold text-[#F5F5DC]">Profile Settings</h1>
-            <p className="text-[#8FBC8F] mt-1">Manage your account and preferences</p>
+            <h1 className="text-3xl font-bold text-[#FFFFFF]">Profile Settings</h1>
+            <p className="text-[#00F5FF] mt-1">Manage your account and preferences</p>
           </motion.div>
 
           <div className="grid lg:grid-cols-4 gap-8">
@@ -52,22 +63,22 @@ export function Profile({ onLogout }: ProfileProps) {
               className="lg:col-span-1"
             >
               {/* User Card */}
-              <div className="bg-gradient-to-br from-[#0D2818] to-[#0a1f12] border border-[#8FBC8F]/10 rounded-xl p-6 mb-6">
+              <div className="bg-gradient-to-br from-[#011627] to-[#0A2A3A] border border-[#00F5FF]/10 rounded-xl p-6 mb-6">
                 <div className="flex items-center gap-4">
-                  <div className="w-16 h-16 rounded-full bg-gradient-to-br from-[#C9A227] to-[#8FBC8F] flex items-center justify-center">
-                    <span className="text-[#0D2818] font-bold text-2xl">JD</span>
+                  <div className="w-16 h-16 rounded-full bg-gradient-to-br from-[#CCFF00] to-[#00F5FF] flex items-center justify-center">
+                    <span className="text-[#011627] font-bold text-2xl">{profile.name.split(' ').map((n: string) => n[0]).join('')}</span>
                   </div>
                   <div>
-                    <p className="text-[#F5F5DC] font-semibold">John Doe</p>
-                    <p className="text-[#8FBC8F] text-sm">john@example.com</p>
+                    <p className="text-[#FFFFFF] font-semibold">{profile.name}</p>
+                    <p className="text-[#00F5FF] text-sm">{profile.email}</p>
                   </div>
                 </div>
-                <div className="mt-4 pt-4 border-t border-[#8FBC8F]/10">
+                <div className="mt-4 pt-4 border-t border-[#00F5FF]/10">
                   <div className="flex items-center gap-2">
-                    <Trophy className="w-4 h-4 text-[#C9A227]" />
-                    <span className="text-[#C9A227] text-sm font-medium">Pro Plan</span>
+                    <Trophy className="w-4 h-4 text-[#CCFF00]" />
+                    <span className="text-[#CCFF00] text-sm font-medium">{profile.tier} Plan</span>
                   </div>
-                  <p className="text-[#8FBC8F] text-xs mt-1">Renews on Apr 15, 2024</p>
+                  <p className="text-[#00F5FF] text-xs mt-1">Renews on {profile.renewalDate}</p>
                 </div>
               </div>
 
@@ -79,8 +90,8 @@ export function Profile({ onLogout }: ProfileProps) {
                     onClick={() => setActiveTab(tab.id)}
                     className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
                       activeTab === tab.id
-                        ? 'bg-[#C9A227]/10 text-[#C9A227] border border-[#C9A227]/30'
-                        : 'text-[#8FBC8F] hover:bg-[#0D2818] hover:text-[#F5F5DC]'
+                        ? 'bg-[#CCFF00]/10 text-[#CCFF00] border border-[#CCFF00]/30'
+                        : 'text-[#00F5FF] hover:bg-[#011627] hover:text-[#FFFFFF]'
                     }`}
                   >
                     <tab.icon className="w-5 h-5" />
@@ -106,46 +117,46 @@ export function Profile({ onLogout }: ProfileProps) {
             >
               {/* General Settings */}
               {activeTab === 'general' && (
-                <div className="bg-gradient-to-br from-[#0D2818] to-[#0a1f12] border border-[#8FBC8F]/10 rounded-xl p-6">
-                  <h2 className="text-xl font-bold text-[#F5F5DC] mb-6">General Settings</h2>
+                <div className="bg-gradient-to-br from-[#011627] to-[#0A2A3A] border border-[#00F5FF]/10 rounded-xl p-6">
+                  <h2 className="text-xl font-bold text-[#FFFFFF] mb-6">General Settings</h2>
                   <div className="space-y-6">
                     <div className="grid md:grid-cols-2 gap-6">
                       <div>
-                        <label className="block text-[#8FBC8F] text-sm mb-2">Full Name</label>
+                        <label className="block text-[#00F5FF] text-sm mb-2">Full Name</label>
                         <input
                           type="text"
                           defaultValue="John Doe"
-                          className="w-full px-4 py-3 bg-[#0a1f12] border border-[#8FBC8F]/20 rounded-lg text-[#F5F5DC] focus:outline-none focus:border-[#C9A227]/50"
+                          className="w-full px-4 py-3 bg-[#0A2A3A] border border-[#00F5FF]/20 rounded-lg text-[#FFFFFF] focus:outline-none focus:border-[#CCFF00]/50"
                         />
                       </div>
                       <div>
-                        <label className="block text-[#8FBC8F] text-sm mb-2">Email</label>
+                        <label className="block text-[#00F5FF] text-sm mb-2">Email</label>
                         <input
                           type="email"
                           defaultValue="john@example.com"
-                          className="w-full px-4 py-3 bg-[#0a1f12] border border-[#8FBC8F]/20 rounded-lg text-[#F5F5DC] focus:outline-none focus:border-[#C9A227]/50"
+                          className="w-full px-4 py-3 bg-[#0A2A3A] border border-[#00F5FF]/20 rounded-lg text-[#FFFFFF] focus:outline-none focus:border-[#CCFF00]/50"
                         />
                       </div>
                     </div>
                     <div>
-                      <label className="block text-[#8FBC8F] text-sm mb-2">Phone</label>
+                      <label className="block text-[#00F5FF] text-sm mb-2">Phone</label>
                       <input
                         type="tel"
                         placeholder="+1 (555) 000-0000"
-                        className="w-full px-4 py-3 bg-[#0a1f12] border border-[#8FBC8F]/20 rounded-lg text-[#F5F5DC] placeholder-[#8FBC8F]/50 focus:outline-none focus:border-[#C9A227]/50"
+                        className="w-full px-4 py-3 bg-[#0A2A3A] border border-[#00F5FF]/20 rounded-lg text-[#FFFFFF] placeholder-[#00F5FF]/50 focus:outline-none focus:border-[#CCFF00]/50"
                       />
                     </div>
                     <div>
-                      <label className="block text-[#8FBC8F] text-sm mb-2">Timezone</label>
-                      <select className="w-full px-4 py-3 bg-[#0a1f12] border border-[#8FBC8F]/20 rounded-lg text-[#F5F5DC] focus:outline-none focus:border-[#C9A227]/50">
+                      <label className="block text-[#00F5FF] text-sm mb-2">Timezone</label>
+                      <select className="w-full px-4 py-3 bg-[#0A2A3A] border border-[#00F5FF]/20 rounded-lg text-[#FFFFFF] focus:outline-none focus:border-[#CCFF00]/50">
                         <option>UTC-05:00 Eastern Time</option>
                         <option>UTC-08:00 Pacific Time</option>
                         <option>UTC+00:00 London</option>
                         <option>UTC+01:00 Central Europe</option>
                       </select>
                     </div>
-                    <div className="pt-4 border-t border-[#8FBC8F]/10">
-                      <button className="px-6 py-3 bg-[#C9A227] text-[#0D2818] font-bold rounded-lg hover:bg-[#d4b43a] transition-colors">
+                    <div className="pt-4 border-t border-[#00F5FF]/10">
+                      <button className="px-6 py-3 bg-[#CCFF00] text-[#011627] font-bold rounded-lg hover:bg-[#d4b43a] transition-colors">
                         Save Changes
                       </button>
                     </div>
@@ -156,20 +167,20 @@ export function Profile({ onLogout }: ProfileProps) {
               {/* Subscription */}
               {activeTab === 'subscription' && (
                 <div className="space-y-6">
-                  <div className="bg-gradient-to-br from-[#0D2818] to-[#0a1f12] border border-[#C9A227]/30 rounded-xl p-6">
+                  <div className="bg-gradient-to-br from-[#011627] to-[#0A2A3A] border border-[#CCFF00]/30 rounded-xl p-6">
                     <div className="flex items-start justify-between">
                       <div>
                         <div className="flex items-center gap-2 mb-2">
-                          <Trophy className="w-5 h-5 text-[#C9A227]" />
-                          <span className="text-[#C9A227] font-semibold">Pro Plan</span>
+                          <Trophy className="w-5 h-5 text-[#CCFF00]" />
+                          <span className="text-[#CCFF00] font-semibold">Pro Plan</span>
                         </div>
-                        <p className="text-[#F5F5DC] text-2xl font-bold">$49/month</p>
-                        <p className="text-[#8FBC8F] text-sm mt-1">Next billing: April 15, 2024</p>
+                        <p className="text-[#FFFFFF] text-2xl font-bold">$49/month</p>
+                        <p className="text-[#00F5FF] text-sm mt-1">Next billing: April 15, 2024</p>
                       </div>
                       <span className="px-3 py-1 bg-green-500/10 text-green-400 text-sm rounded-full">Active</span>
                     </div>
-                    <div className="mt-6 pt-6 border-t border-[#8FBC8F]/10">
-                      <h4 className="text-[#F5F5DC] font-semibold mb-4">Plan Features</h4>
+                    <div className="mt-6 pt-6 border-t border-[#00F5FF]/10">
+                      <h4 className="text-[#FFFFFF] font-semibold mb-4">Plan Features</h4>
                       <ul className="space-y-2">
                         {[
                           'Unlimited predictions',
@@ -179,8 +190,8 @@ export function Profile({ onLogout }: ProfileProps) {
                           'Bet tracking & analytics',
                           'Email & SMS alerts',
                         ].map((feature, i) => (
-                          <li key={i} className="flex items-center gap-2 text-[#8FBC8F]">
-                            <Check className="w-4 h-4 text-[#C9A227]" />
+                          <li key={i} className="flex items-center gap-2 text-[#00F5FF]">
+                            <Check className="w-4 h-4 text-[#CCFF00]" />
                             {feature}
                           </li>
                         ))}
@@ -188,17 +199,17 @@ export function Profile({ onLogout }: ProfileProps) {
                     </div>
                   </div>
 
-                  <div className="bg-gradient-to-br from-[#0D2818] to-[#0a1f12] border border-[#8FBC8F]/10 rounded-xl p-6">
-                    <h4 className="text-[#F5F5DC] font-semibold mb-4">Payment Method</h4>
-                    <div className="flex items-center gap-4 p-4 bg-[#0a1f12] rounded-lg">
+                  <div className="bg-gradient-to-br from-[#011627] to-[#0A2A3A] border border-[#00F5FF]/10 rounded-xl p-6">
+                    <h4 className="text-[#FFFFFF] font-semibold mb-4">Payment Method</h4>
+                    <div className="flex items-center gap-4 p-4 bg-[#0A2A3A] rounded-lg">
                       <div className="w-12 h-8 bg-gradient-to-r from-[#1a1f71] to-[#0d1b5e] rounded flex items-center justify-center">
                         <span className="text-white text-xs font-bold">VISA</span>
                       </div>
                       <div>
-                        <p className="text-[#F5F5DC]">•••• •••• •••• 4242</p>
-                        <p className="text-[#8FBC8F] text-sm">Expires 12/25</p>
+                        <p className="text-[#FFFFFF]">•••• •••• •••• 4242</p>
+                        <p className="text-[#00F5FF] text-sm">Expires 12/25</p>
                       </div>
-                      <button className="ml-auto text-[#C9A227] text-sm hover:underline">
+                      <button className="ml-auto text-[#CCFF00] text-sm hover:underline">
                         Change
                       </button>
                     </div>
@@ -208,26 +219,26 @@ export function Profile({ onLogout }: ProfileProps) {
 
               {/* Notifications */}
               {activeTab === 'notifications' && (
-                <div className="bg-gradient-to-br from-[#0D2818] to-[#0a1f12] border border-[#8FBC8F]/10 rounded-xl p-6">
-                  <h2 className="text-xl font-bold text-[#F5F5DC] mb-6">Notification Preferences</h2>
+                <div className="bg-gradient-to-br from-[#011627] to-[#0A2A3A] border border-[#00F5FF]/10 rounded-xl p-6">
+                  <h2 className="text-xl font-bold text-[#FFFFFF] mb-6">Notification Preferences</h2>
                   <div className="space-y-6">
                     <div>
-                      <h4 className="text-[#F5F5DC] font-semibold mb-4">Channels</h4>
+                      <h4 className="text-[#FFFFFF] font-semibold mb-4">Channels</h4>
                       <div className="space-y-4">
                         {[
                           { key: 'email', label: 'Email Notifications', icon: Mail },
                           { key: 'sms', label: 'SMS Notifications', icon: Smartphone },
                           { key: 'push', label: 'Push Notifications', icon: Bell },
                         ].map(({ key, label, icon: Icon }) => (
-                          <div key={key} className="flex items-center justify-between p-4 bg-[#0a1f12] rounded-lg">
+                          <div key={key} className="flex items-center justify-between p-4 bg-[#0A2A3A] rounded-lg">
                             <div className="flex items-center gap-3">
-                              <Icon className="w-5 h-5 text-[#8FBC8F]" />
-                              <span className="text-[#F5F5DC]">{label}</span>
+                              <Icon className="w-5 h-5 text-[#00F5FF]" />
+                              <span className="text-[#FFFFFF]">{label}</span>
                             </div>
                             <button
                               onClick={() => setNotifications({ ...notifications, [key]: !notifications[key as keyof typeof notifications] })}
                               className={`w-12 h-6 rounded-full transition-colors relative ${
-                                notifications[key as keyof typeof notifications] ? 'bg-[#C9A227]' : 'bg-[#8FBC8F]/20'
+                                notifications[key as keyof typeof notifications] ? 'bg-[#CCFF00]' : 'bg-[#00F5FF]/20'
                               }`}
                             >
                               <span className={`absolute top-1 w-4 h-4 rounded-full bg-white transition-all ${
@@ -238,23 +249,23 @@ export function Profile({ onLogout }: ProfileProps) {
                         ))}
                       </div>
                     </div>
-                    <div className="pt-6 border-t border-[#8FBC8F]/10">
-                      <h4 className="text-[#F5F5DC] font-semibold mb-4">Alerts</h4>
+                    <div className="pt-6 border-t border-[#00F5FF]/10">
+                      <h4 className="text-[#FFFFFF] font-semibold mb-4">Alerts</h4>
                       <div className="space-y-4">
                         {[
                           { key: 'valueBets', label: 'Value Bet Alerts', desc: 'Get notified when high-edge bets are detected' },
                           { key: 'results', label: 'Match Results', desc: 'Receive updates on your tracked bets' },
                           { key: 'newsletter', label: 'Weekly Newsletter', desc: 'Tips and insights every week' },
                         ].map(({ key, label, desc }) => (
-                          <div key={key} className="flex items-center justify-between p-4 bg-[#0a1f12] rounded-lg">
+                          <div key={key} className="flex items-center justify-between p-4 bg-[#0A2A3A] rounded-lg">
                             <div>
-                              <p className="text-[#F5F5DC]">{label}</p>
-                              <p className="text-[#8FBC8F] text-sm">{desc}</p>
+                              <p className="text-[#FFFFFF]">{label}</p>
+                              <p className="text-[#00F5FF] text-sm">{desc}</p>
                             </div>
                             <button
                               onClick={() => setNotifications({ ...notifications, [key]: !notifications[key as keyof typeof notifications] })}
                               className={`w-12 h-6 rounded-full transition-colors relative ${
-                                notifications[key as keyof typeof notifications] ? 'bg-[#C9A227]' : 'bg-[#8FBC8F]/20'
+                                notifications[key as keyof typeof notifications] ? 'bg-[#CCFF00]' : 'bg-[#00F5FF]/20'
                               }`}
                             >
                               <span className={`absolute top-1 w-4 h-4 rounded-full bg-white transition-all ${
@@ -272,50 +283,50 @@ export function Profile({ onLogout }: ProfileProps) {
               {/* Security */}
               {activeTab === 'security' && (
                 <div className="space-y-6">
-                  <div className="bg-gradient-to-br from-[#0D2818] to-[#0a1f12] border border-[#8FBC8F]/10 rounded-xl p-6">
-                    <h2 className="text-xl font-bold text-[#F5F5DC] mb-6">Security Settings</h2>
+                  <div className="bg-gradient-to-br from-[#011627] to-[#0A2A3A] border border-[#00F5FF]/10 rounded-xl p-6">
+                    <h2 className="text-xl font-bold text-[#FFFFFF] mb-6">Security Settings</h2>
                     <div className="space-y-6">
                       <div>
-                        <label className="block text-[#8FBC8F] text-sm mb-2">Current Password</label>
+                        <label className="block text-[#00F5FF] text-sm mb-2">Current Password</label>
                         <input
                           type="password"
                           placeholder="••••••••"
-                          className="w-full px-4 py-3 bg-[#0a1f12] border border-[#8FBC8F]/20 rounded-lg text-[#F5F5DC] focus:outline-none focus:border-[#C9A227]/50"
+                          className="w-full px-4 py-3 bg-[#0A2A3A] border border-[#00F5FF]/20 rounded-lg text-[#FFFFFF] focus:outline-none focus:border-[#CCFF00]/50"
                         />
                       </div>
                       <div>
-                        <label className="block text-[#8FBC8F] text-sm mb-2">New Password</label>
+                        <label className="block text-[#00F5FF] text-sm mb-2">New Password</label>
                         <input
                           type="password"
                           placeholder="••••••••"
-                          className="w-full px-4 py-3 bg-[#0a1f12] border border-[#8FBC8F]/20 rounded-lg text-[#F5F5DC] focus:outline-none focus:border-[#C9A227]/50"
+                          className="w-full px-4 py-3 bg-[#0A2A3A] border border-[#00F5FF]/20 rounded-lg text-[#FFFFFF] focus:outline-none focus:border-[#CCFF00]/50"
                         />
                       </div>
                       <div>
-                        <label className="block text-[#8FBC8F] text-sm mb-2">Confirm New Password</label>
+                        <label className="block text-[#00F5FF] text-sm mb-2">Confirm New Password</label>
                         <input
                           type="password"
                           placeholder="••••••••"
-                          className="w-full px-4 py-3 bg-[#0a1f12] border border-[#8FBC8F]/20 rounded-lg text-[#F5F5DC] focus:outline-none focus:border-[#C9A227]/50"
+                          className="w-full px-4 py-3 bg-[#0A2A3A] border border-[#00F5FF]/20 rounded-lg text-[#FFFFFF] focus:outline-none focus:border-[#CCFF00]/50"
                         />
                       </div>
-                      <button className="px-6 py-3 bg-[#C9A227] text-[#0D2818] font-bold rounded-lg hover:bg-[#d4b43a] transition-colors">
+                      <button className="px-6 py-3 bg-[#CCFF00] text-[#011627] font-bold rounded-lg hover:bg-[#d4b43a] transition-colors">
                         Update Password
                       </button>
                     </div>
                   </div>
 
-                  <div className="bg-gradient-to-br from-[#0D2818] to-[#0a1f12] border border-[#8FBC8F]/10 rounded-xl p-6">
-                    <h4 className="text-[#F5F5DC] font-semibold mb-4">Two-Factor Authentication</h4>
-                    <div className="flex items-center justify-between p-4 bg-[#0a1f12] rounded-lg">
+                  <div className="bg-gradient-to-br from-[#011627] to-[#0A2A3A] border border-[#00F5FF]/10 rounded-xl p-6">
+                    <h4 className="text-[#FFFFFF] font-semibold mb-4">Two-Factor Authentication</h4>
+                    <div className="flex items-center justify-between p-4 bg-[#0A2A3A] rounded-lg">
                       <div className="flex items-center gap-3">
-                        <Shield className="w-5 h-5 text-[#8FBC8F]" />
+                        <Shield className="w-5 h-5 text-[#00F5FF]" />
                         <div>
-                          <p className="text-[#F5F5DC]">2FA Status</p>
-                          <p className="text-[#8FBC8F] text-sm">Not enabled</p>
+                          <p className="text-[#FFFFFF]">2FA Status</p>
+                          <p className="text-[#00F5FF] text-sm">Not enabled</p>
                         </div>
                       </div>
-                      <button className="px-4 py-2 bg-[#C9A227]/10 text-[#C9A227] rounded-lg hover:bg-[#C9A227]/20 transition-colors">
+                      <button className="px-4 py-2 bg-[#CCFF00]/10 text-[#CCFF00] rounded-lg hover:bg-[#CCFF00]/20 transition-colors">
                         Enable
                       </button>
                     </div>
@@ -325,44 +336,44 @@ export function Profile({ onLogout }: ProfileProps) {
 
               {/* API Access */}
               {activeTab === 'api' && (
-                <div className="bg-gradient-to-br from-[#0D2818] to-[#0a1f12] border border-[#8FBC8F]/10 rounded-xl p-6">
-                  <h2 className="text-xl font-bold text-[#F5F5DC] mb-6">API Access</h2>
-                  <div className="p-4 bg-[#C9A227]/10 border border-[#C9A227]/30 rounded-lg mb-6">
+                <div className="bg-gradient-to-br from-[#011627] to-[#0A2A3A] border border-[#00F5FF]/10 rounded-xl p-6">
+                  <h2 className="text-xl font-bold text-[#FFFFFF] mb-6">API Access</h2>
+                  <div className="p-4 bg-[#CCFF00]/10 border border-[#CCFF00]/30 rounded-lg mb-6">
                     <div className="flex items-start gap-3">
-                      <AlertTriangle className="w-5 h-5 text-[#C9A227] flex-shrink-0 mt-0.5" />
+                      <AlertTriangle className="w-5 h-5 text-[#CCFF00] flex-shrink-0 mt-0.5" />
                       <div>
-                        <p className="text-[#F5F5DC] font-medium">Enterprise Feature</p>
-                        <p className="text-[#8FBC8F] text-sm">API access is available on Enterprise plans. Upgrade to unlock programmatic access to our predictions.</p>
+                        <p className="text-[#FFFFFF] font-medium">Enterprise Feature</p>
+                        <p className="text-[#00F5FF] text-sm">API access is available on Enterprise plans. Upgrade to unlock programmatic access to our predictions.</p>
                       </div>
                     </div>
                   </div>
                   <div className="space-y-4">
                     <div>
-                      <label className="block text-[#8FBC8F] text-sm mb-2">API Key</label>
+                      <label className="block text-[#00F5FF] text-sm mb-2">API Key</label>
                       <div className="flex gap-2">
                         <input
                           type="password"
                           value="••••••••••••••••••••••••••"
                           disabled
-                          className="flex-1 px-4 py-3 bg-[#0a1f12] border border-[#8FBC8F]/20 rounded-lg text-[#8FBC8F]"
+                          className="flex-1 px-4 py-3 bg-[#0A2A3A] border border-[#00F5FF]/20 rounded-lg text-[#00F5FF]"
                         />
-                        <button disabled className="px-4 py-3 bg-[#8FBC8F]/20 text-[#8FBC8F]/50 rounded-lg cursor-not-allowed">
+                        <button disabled className="px-4 py-3 bg-[#00F5FF]/20 text-[#00F5FF]/50 rounded-lg cursor-not-allowed">
                           Copy
                         </button>
                       </div>
                     </div>
                     <div>
-                      <label className="block text-[#8FBC8F] text-sm mb-2">Webhook URL</label>
+                      <label className="block text-[#00F5FF] text-sm mb-2">Webhook URL</label>
                       <input
                         type="url"
                         placeholder="https://your-webhook.com/endpoint"
                         disabled
-                        className="w-full px-4 py-3 bg-[#0a1f12] border border-[#8FBC8F]/20 rounded-lg text-[#8FBC8F]/50"
+                        className="w-full px-4 py-3 bg-[#0A2A3A] border border-[#00F5FF]/20 rounded-lg text-[#00F5FF]/50"
                       />
                     </div>
                     <a
                       href="#/pricing"
-                      className="inline-flex items-center gap-2 px-6 py-3 bg-[#C9A227] text-[#0D2818] font-bold rounded-lg hover:bg-[#d4b43a] transition-colors"
+                      className="inline-flex items-center gap-2 px-6 py-3 bg-[#CCFF00] text-[#011627] font-bold rounded-lg hover:bg-[#d4b43a] transition-colors"
                     >
                       Upgrade to Enterprise
                       <ChevronRight className="w-4 h-4" />

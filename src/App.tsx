@@ -12,6 +12,7 @@ import { Predictions } from './pages/Predictions';
 import { MatchDetail } from './pages/MatchDetail';
 import { BetTracking } from './pages/BetTracking';
 import { Profile } from './pages/Profile';
+import { Admin } from './pages/Admin';
 import { AuthModal } from './components/AuthModal';
 import { siteConfig } from './config';
 
@@ -30,7 +31,7 @@ function useHashRouter() {
 
 function LandingPage() {
   return (
-    <main className="relative w-full overflow-x-hidden bg-[#0D2818]">
+    <main className="relative w-full overflow-x-hidden bg-[#011627]">
       <HeroSection />
       <StorySection />
       <ProductSection />
@@ -45,6 +46,8 @@ function LandingPage() {
 function App() {
   const hash = useHashRouter();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [userRole, setUserRole] = useState<'user' | 'admin'>('user');
+  const [userTier, setUserTier] = useState<'free' | 'pro'>('free');
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [authMode, setAuthMode] = useState<'login' | 'signup'>('login');
 
@@ -54,7 +57,7 @@ function App() {
   }, []);
 
   // Check if route requires authentication
-  const protectedRoutes = ['#/dashboard', '#/predictions', '#/bets', '#/profile'];
+  const protectedRoutes = ['#/dashboard', '#/predictions', '#/bets', '#/profile', '#/admin'];
   const isProtectedRoute = protectedRoutes.some(route => hash.startsWith(route));
 
   // Show auth modal if trying to access protected route while not authenticated
@@ -65,13 +68,27 @@ function App() {
     }
   }, [hash, isProtectedRoute, isAuthenticated]);
 
-  const handleLogin = () => {
+  // Check for admin entrance test URL
+  useEffect(() => {
+    if (window.location.href.includes('?admin=true')) {
+      handleLogin('admin', 'pro');
+      window.location.hash = '#/dashboard';
+    }
+  }, []);
+
+  const handleLogin = (role: 'user' | 'admin' = 'user', tier: 'free' | 'pro' = 'free') => {
     setIsAuthenticated(true);
+    setUserRole(role);
+    setUserTier(tier);
+    localStorage.setItem('auth-token', role === 'admin' ? 'mock-admin-token' : 'mock-user-token');
     setShowAuthModal(false);
   };
 
   const handleLogout = () => {
     setIsAuthenticated(false);
+    setUserRole('user');
+    setUserTier('free');
+    localStorage.removeItem('auth-token');
     window.location.hash = '#/';
   };
 
@@ -96,6 +113,11 @@ function App() {
         return <BetTracking onLogout={handleLogout} />;
       case hash === '#/profile':
         return <Profile onLogout={handleLogout} />;
+      case hash === '#/admin':
+        if (userRole !== 'admin') {
+          return <Dashboard onLogout={handleLogout} />;
+        }
+        return <Admin onLogout={handleLogout} />;
       case hash === '#/pricing':
         return <LandingPage />; // Scroll to pricing section
       default:
@@ -104,9 +126,11 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0D2818]">
+    <div className="min-h-screen bg-[#011627]">
       <Navigation 
         isAuthenticated={isAuthenticated} 
+        userRole={userRole}
+        userTier={userTier}
         onLogout={handleLogout}
         onLoginClick={() => {
           setAuthMode('login');

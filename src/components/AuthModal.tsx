@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Mail, Lock, User, Eye, EyeOff } from 'lucide-react';
+import { Logo } from './Logo';
 
 interface AuthModalProps {
   mode: 'login' | 'signup';
   onClose: () => void;
-  onLogin: () => void;
+  onLogin: (role?: 'user' | 'admin', tier?: 'free' | 'pro') => void;
   onSwitchMode: () => void;
 }
 
@@ -21,12 +22,22 @@ export function AuthModal({ mode, onClose, onLogin, onSwitchMode }: AuthModalPro
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
+    // Check test accounts
+    let finalRole: 'user' | 'admin' = 'user';
+    let finalTier: 'free' | 'pro' = 'free';
     
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1500));
+    if (formData.email === 'free@edgeai.com' && formData.password === 'free') {
+      finalRole = 'user'; finalTier = 'free';
+    } else if (formData.email === 'pro@edgeai.com' && formData.password === 'pro') {
+      finalRole = 'user'; finalTier = 'pro';
+    } else if (formData.email === 'admin@edgeai.com' && formData.password === 'admin') {
+      finalRole = 'admin'; finalTier = 'pro';
+    } else if (formData.email === 'demo@edgeai.com' && formData.password === 'demo') {
+      finalRole = 'user'; finalTier = 'free';
+    }
     
     setIsLoading(false);
-    onLogin();
+    onLogin(finalRole, finalTier);
   };
 
   return (
@@ -43,26 +54,26 @@ export function AuthModal({ mode, onClose, onLogin, onSwitchMode }: AuthModalPro
           animate={{ scale: 1, opacity: 1, y: 0 }}
           exit={{ scale: 0.9, opacity: 0, y: 20 }}
           transition={{ type: "spring", damping: 25, stiffness: 300 }}
-          className="relative w-full max-w-md bg-gradient-to-br from-[#0D2818] to-[#05140A] border border-[#8FBC8F]/20 rounded-2xl p-8 shadow-2xl"
+          className="relative w-full max-w-md bg-gradient-to-br from-[#011627] to-[#011627] border border-[#00F5FF]/20 rounded-2xl p-8 shadow-2xl"
           onClick={(e) => e.stopPropagation()}
         >
           {/* Close Button */}
           <button
             onClick={onClose}
-            className="absolute top-4 right-4 w-8 h-8 rounded-full bg-[#8FBC8F]/10 flex items-center justify-center text-[#8FBC8F] hover:bg-[#8FBC8F]/20 transition-colors"
+            className="absolute top-4 right-4 w-8 h-8 rounded-full bg-[#00F5FF]/10 flex items-center justify-center text-[#00F5FF] hover:bg-[#00F5FF]/20 transition-colors"
           >
             <X className="w-4 h-4" />
           </button>
 
           {/* Header */}
           <div className="text-center mb-8">
-            <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-[#C9A227] to-[#8FBC8F] flex items-center justify-center mx-auto mb-4">
-              <span className="text-[#0D2818] font-bold text-2xl">B</span>
+            <div className="flex justify-center mb-4">
+              <Logo />
             </div>
-            <h2 className="text-2xl font-bold text-[#F5F5DC] mb-2">
+            <h2 className="text-2xl font-bold text-[#FFFFFF] mb-2">
               {mode === 'login' ? 'Welcome Back' : 'Create Account'}
             </h2>
-            <p className="text-[#8FBC8F] text-sm">
+            <p className="text-[#00F5FF] text-sm">
               {mode === 'login'
                 ? 'Sign in to access your predictions'
                 : 'Start your winning journey today'}
@@ -73,15 +84,15 @@ export function AuthModal({ mode, onClose, onLogin, onSwitchMode }: AuthModalPro
           <form onSubmit={handleSubmit} className="space-y-4">
             {mode === 'signup' && (
               <div>
-                <label className="block text-[#8FBC8F] text-sm mb-2">Full Name</label>
+                <label className="block text-[#00F5FF] text-sm mb-2">Full Name</label>
                 <div className="relative">
-                  <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#8FBC8F]" />
+                  <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#00F5FF]" />
                   <input
                     type="text"
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     placeholder="John Doe"
-                    className="w-full pl-12 pr-4 py-3 bg-[#0a1f12] border border-[#8FBC8F]/20 rounded-lg text-[#F5F5DC] placeholder-[#8FBC8F]/50 focus:outline-none focus:border-[#C9A227]/50"
+                    className="w-full pl-12 pr-4 py-3 bg-[#0A2A3A] border border-[#00F5FF]/20 rounded-lg text-[#FFFFFF] placeholder-[#00F5FF]/50 focus:outline-none focus:border-[#CCFF00]/50"
                     required
                   />
                 </div>
@@ -89,36 +100,36 @@ export function AuthModal({ mode, onClose, onLogin, onSwitchMode }: AuthModalPro
             )}
 
             <div>
-              <label className="block text-[#8FBC8F] text-sm mb-2">Email</label>
+              <label className="block text-[#00F5FF] text-sm mb-2">Email</label>
               <div className="relative">
-                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#8FBC8F]" />
+                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#00F5FF]" />
                 <input
                   type="email"
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                   placeholder="you@example.com"
-                  className="w-full pl-12 pr-4 py-3 bg-[#0a1f12] border border-[#8FBC8F]/20 rounded-lg text-[#F5F5DC] placeholder-[#8FBC8F]/50 focus:outline-none focus:border-[#C9A227]/50"
+                  className="w-full pl-12 pr-4 py-3 bg-[#0A2A3A] border border-[#00F5FF]/20 rounded-lg text-[#FFFFFF] placeholder-[#00F5FF]/50 focus:outline-none focus:border-[#CCFF00]/50"
                   required
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-[#8FBC8F] text-sm mb-2">Password</label>
+              <label className="block text-[#00F5FF] text-sm mb-2">Password</label>
               <div className="relative">
-                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#8FBC8F]" />
+                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#00F5FF]" />
                 <input
                   type={showPassword ? 'text' : 'password'}
                   value={formData.password}
                   onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                   placeholder="••••••••"
-                  className="w-full pl-12 pr-12 py-3 bg-[#0a1f12] border border-[#8FBC8F]/20 rounded-lg text-[#F5F5DC] placeholder-[#8FBC8F]/50 focus:outline-none focus:border-[#C9A227]/50"
+                  className="w-full pl-12 pr-12 py-3 bg-[#0A2A3A] border border-[#00F5FF]/20 rounded-lg text-[#FFFFFF] placeholder-[#00F5FF]/50 focus:outline-none focus:border-[#CCFF00]/50"
                   required
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-[#8FBC8F] hover:text-[#C9A227] transition-colors"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-[#00F5FF] hover:text-[#CCFF00] transition-colors"
                 >
                   {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                 </button>
@@ -128,10 +139,10 @@ export function AuthModal({ mode, onClose, onLogin, onSwitchMode }: AuthModalPro
             {mode === 'login' && (
               <div className="flex items-center justify-between">
                 <label className="flex items-center gap-2 cursor-pointer">
-                  <input type="checkbox" className="w-4 h-4 rounded border-[#8FBC8F]/20 bg-[#0a1f12] text-[#C9A227] focus:ring-[#C9A227]" />
-                  <span className="text-[#8FBC8F] text-sm">Remember me</span>
+                  <input type="checkbox" className="w-4 h-4 rounded border-[#00F5FF]/20 bg-[#0A2A3A] text-[#CCFF00] focus:ring-[#CCFF00]" />
+                  <span className="text-[#00F5FF] text-sm">Remember me</span>
                 </label>
-                <a href="#" className="text-[#C9A227] text-sm hover:underline">
+                <a href="#" className="text-[#CCFF00] text-sm hover:underline">
                   Forgot password?
                 </a>
               </div>
@@ -140,10 +151,10 @@ export function AuthModal({ mode, onClose, onLogin, onSwitchMode }: AuthModalPro
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full py-4 bg-[#C9A227] text-[#0D2818] font-bold rounded-lg hover:bg-[#d4b43a] transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              className="w-full py-4 bg-[#CCFF00] text-[#011627] font-bold rounded-lg hover:bg-[#d4b43a] transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
               {isLoading ? (
-                <div className="w-5 h-5 border-2 border-[#0D2818] border-t-transparent rounded-full animate-spin" />
+                <div className="w-5 h-5 border-2 border-[#011627] border-t-transparent rounded-full animate-spin" />
               ) : (
                 mode === 'login' ? 'Sign In' : 'Create Account'
               )}
@@ -152,14 +163,14 @@ export function AuthModal({ mode, onClose, onLogin, onSwitchMode }: AuthModalPro
 
           {/* Divider */}
           <div className="flex items-center gap-4 my-6">
-            <div className="flex-1 h-px bg-[#8FBC8F]/20" />
-            <span className="text-[#8FBC8F] text-sm">or</span>
-            <div className="flex-1 h-px bg-[#8FBC8F]/20" />
+            <div className="flex-1 h-px bg-[#00F5FF]/20" />
+            <span className="text-[#00F5FF] text-sm">or</span>
+            <div className="flex-1 h-px bg-[#00F5FF]/20" />
           </div>
 
           {/* Social Login */}
           <div className="grid grid-cols-2 gap-3">
-            <button className="flex items-center justify-center gap-2 py-3 bg-[#0a1f12] border border-[#8FBC8F]/20 rounded-lg text-[#F5F5DC] hover:border-[#C9A227]/40 transition-colors">
+            <button className="flex items-center justify-center gap-2 py-3 bg-[#0A2A3A] border border-[#00F5FF]/20 rounded-lg text-[#FFFFFF] hover:border-[#CCFF00]/40 transition-colors">
               <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
                 <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
@@ -168,7 +179,7 @@ export function AuthModal({ mode, onClose, onLogin, onSwitchMode }: AuthModalPro
               </svg>
               Google
             </button>
-            <button className="flex items-center justify-center gap-2 py-3 bg-[#0a1f12] border border-[#8FBC8F]/20 rounded-lg text-[#F5F5DC] hover:border-[#C9A227]/40 transition-colors">
+            <button className="flex items-center justify-center gap-2 py-3 bg-[#0A2A3A] border border-[#00F5FF]/20 rounded-lg text-[#FFFFFF] hover:border-[#CCFF00]/40 transition-colors">
               <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0012 2z"/>
               </svg>
@@ -177,11 +188,11 @@ export function AuthModal({ mode, onClose, onLogin, onSwitchMode }: AuthModalPro
           </div>
 
           {/* Switch Mode */}
-          <p className="text-center mt-6 text-[#8FBC8F] text-sm">
+          <p className="text-center mt-6 text-[#00F5FF] text-sm">
             {mode === 'login' ? "Don't have an account?" : "Already have an account?"}{' '}
             <button
               onClick={onSwitchMode}
-              className="text-[#C9A227] font-semibold hover:underline"
+              className="text-[#CCFF00] font-semibold hover:underline"
             >
               {mode === 'login' ? 'Sign up' : 'Sign in'}
             </button>

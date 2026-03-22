@@ -10,11 +10,11 @@ export function TestimonialsSection() {
   return (
     <section
       ref={sectionRef}
-      className="relative w-full py-24 lg:py-32 bg-[#05140A]"
+      className="relative w-full py-24 lg:py-32 bg-[#011627]"
     >
       {/* Background */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[#C9A227]/5 rounded-full blur-3xl" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[#CCFF00]/5 rounded-full blur-3xl" />
       </div>
 
       <div className="relative z-10 w-full px-4 sm:px-6 lg:px-8 xl:px-12">
@@ -26,16 +26,16 @@ export function TestimonialsSection() {
             transition={{ duration: 0.8, ease: [0.215, 0.61, 0.355, 1] }}
             className="text-center mb-16"
           >
-            <span className="inline-block px-4 py-2 rounded-full bg-[#C9A227]/10 text-[#C9A227] text-sm font-medium mb-6">
+            <span className="inline-block px-4 py-2 rounded-full bg-[#CCFF00]/10 text-[#CCFF00] text-sm font-medium mb-6">
               {testimonialsConfig.label}
             </span>
             <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-4">
               {testimonialsConfig.heading.map((line, i) => (
-                <span key={i} className="text-[#F5F5DC] block">{line}</span>
+                <span key={i} className="text-[#FFFFFF] block">{line}</span>
               ))}
-              <span className="text-[#C9A227] block">{testimonialsConfig.headingAccent}</span>
+              <span className="text-[#CCFF00] block">{testimonialsConfig.headingAccent}</span>
             </h2>
-            <p className="text-[#8FBC8F] text-lg max-w-2xl mx-auto mt-6">
+            <p className="text-[#00F5FF] text-lg max-w-2xl mx-auto mt-6">
               {testimonialsConfig.description}
             </p>
           </motion.div>
@@ -48,35 +48,35 @@ export function TestimonialsSection() {
                 initial={{ opacity: 0, y: 30 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.6, delay: 0.2 + index * 0.15 }}
-                className="relative bg-gradient-to-br from-[#0D2818] to-[#0a1f12] border border-[#8FBC8F]/10 hover:border-[#C9A227]/30 rounded-2xl p-8 transition-all duration-300 group"
+                className="relative bg-gradient-to-br from-[#011627] to-[#0A2A3A] border border-[#00F5FF]/10 hover:border-[#CCFF00]/30 rounded-2xl p-8 transition-all duration-300 group"
               >
                 {/* Quote Icon */}
-                <div className="absolute top-6 right-6 w-10 h-10 rounded-full bg-[#C9A227]/10 flex items-center justify-center">
-                  <Quote className="w-5 h-5 text-[#C9A227]" />
+                <div className="absolute top-6 right-6 w-10 h-10 rounded-full bg-[#CCFF00]/10 flex items-center justify-center">
+                  <Quote className="w-5 h-5 text-[#CCFF00]" />
                 </div>
 
                 {/* Rating */}
                 <div className="flex gap-1 mb-6">
                   {[...Array(testimonial.rating)].map((_, i) => (
-                    <Star key={i} className="w-5 h-5 fill-[#C9A227] text-[#C9A227]" />
+                    <Star key={i} className="w-5 h-5 fill-[#CCFF00] text-[#CCFF00]" />
                   ))}
                 </div>
 
                 {/* Content */}
-                <p className="text-[#8FBC8F] leading-relaxed mb-8">
+                <p className="text-[#00F5FF] leading-relaxed mb-8">
                   "{testimonial.content}"
                 </p>
 
                 {/* Author */}
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#C9A227] to-[#8FBC8F] flex items-center justify-center">
-                    <span className="text-[#0D2818] font-bold text-lg">
+                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#CCFF00] to-[#00F5FF] flex items-center justify-center">
+                    <span className="text-[#011627] font-bold text-lg">
                       {testimonial.name.charAt(0)}
                     </span>
                   </div>
                   <div>
-                    <p className="text-[#F5F5DC] font-semibold">{testimonial.name}</p>
-                    <p className="text-[#8FBC8F] text-sm">{testimonial.role}</p>
+                    <p className="text-[#FFFFFF] font-semibold">{testimonial.name}</p>
+                    <p className="text-[#00F5FF] text-sm">{testimonial.role}</p>
                   </div>
                 </div>
               </motion.div>
@@ -92,8 +92,8 @@ export function TestimonialsSection() {
           >
             {['Trustpilot 4.9/5', 'App Store 4.8★', 'Google Play 4.9★', '50K+ Downloads'].map((badge) => (
               <div key={badge} className="flex items-center gap-2">
-                <div className="w-2 h-2 rounded-full bg-[#C9A227]" />
-                <span className="text-[#F5F5DC] text-sm font-medium">{badge}</span>
+                <div className="w-2 h-2 rounded-full bg-[#CCFF00]" />
+                <span className="text-[#FFFFFF] text-sm font-medium">{badge}</span>
               </div>
             ))}
           </motion.div>

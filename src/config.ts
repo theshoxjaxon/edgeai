@@ -291,12 +291,12 @@ export const performanceConfig: PerformanceConfig = {
       {
         label: "Bankroll",
         data: [1000, 1180, 1350, 1620, 1890, 2240],
-        color: "#C9A227"
+        color: "#CCFF00"
       },
       {
         label: "Bets Placed",
         data: [0, 45, 92, 148, 201, 267],
-        color: "#8FBC8F"
+        color: "#00F5FF"
       }
     ]
   }
@@ -402,7 +402,7 @@ export const footerConfig: FooterConfig = {
   newsletterDescription: "Subscribe to receive daily value bet alerts and exclusive offers.",
   newsletterPlaceholder: "Enter your email",
   newsletterButton: "Subscribe",
-  copyright: "© 2024 BetWise AI. All rights reserved.",
+  copyright: "© 2024 EdgeAI. All rights reserved.",
   policyLinks: [
     { label: "Privacy Policy", href: "#/privacy" },
     { label: "Terms of Service", href: "#/terms" },
@@ -418,7 +418,7 @@ export interface SiteConfig {
 }
 
 export const siteConfig: SiteConfig = {
-  title: "BetWise AI - Football Betting Predictions",
+  title: "EdgeAI - Football Betting Predictions",
   description: "AI-powered football predictions with value detection, Kelly staking, and performance tracking. Beat the bookmakers with machine learning.",
   language: "en"
 };
@@ -432,7 +432,7 @@ export interface NavConfig {
 }
 
 export const navConfig: NavConfig = {
-  logo: "BetWise AI",
+  logo: "EdgeAI",
   links: [
     { label: "Home", href: "#/" },
     { label: "Dashboard", href: "#/dashboard", protected: true },
