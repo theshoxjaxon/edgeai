@@ -70,8 +70,8 @@ export function HeroSection() {
             <div className="flex flex-col justify-center">
               {/* Badge */}
               <motion.div variants={itemVariants} className="mb-6">
-                <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#CCFF00]/10 border border-[#CCFF00]/30 text-[#CCFF00] text-sm font-medium">
-                  <span className="w-2 h-2 rounded-full bg-[#CCFF00] animate-pulse" />
+                <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/30 text-primary text-sm font-medium">
+                  <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
                   {t(heroConfig.badgeText)}
                 </span>
               </motion.div>
@@ -79,7 +79,7 @@ export function HeroSection() {
               {/* Subtitle */}
               <motion.p
                 variants={itemVariants}
-                className="text-[#00F5FF] text-sm sm:text-base uppercase tracking-[0.2em] mb-4 font-medium"
+                className="text-secondary text-sm sm:text-base uppercase tracking-[0.2em] mb-4 font-medium"
               >
                 {t(heroConfig.subtitle)}
               </motion.p>
@@ -89,14 +89,14 @@ export function HeroSection() {
                 variants={itemVariants}
                 className="text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-bold leading-[0.95] mb-6"
               >
-                <span className="text-[#FFFFFF] block">{t(heroConfig.titleLine1)}</span>
-                <span className="text-[#CCFF00] block mt-2">{t(heroConfig.titleLine2)}</span>
+                <span className="text-base-content block">{t(heroConfig.titleLine1)}</span>
+                <span className="text-primary block mt-2">{t(heroConfig.titleLine2)}</span>
               </motion.h1>
 
               {/* Tagline */}
               <motion.p
                 variants={itemVariants}
-                className="text-[#00F5FF] text-lg sm:text-xl mb-8 max-w-lg"
+                className="text-secondary text-lg sm:text-xl mb-8 max-w-lg"
               >
                 {t(heroConfig.tagline)}
               </motion.p>
@@ -105,14 +105,14 @@ export function HeroSection() {
               <motion.div variants={itemVariants} className="flex flex-wrap gap-4 mb-12">
                 <a
                   href="#/dashboard"
-                  className="group inline-flex items-center gap-2 px-8 py-4 bg-[#CCFF00] text-[#011627] font-bold rounded-lg hover:bg-[#d4b43a] transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-[#CCFF00]/20"
+                  className="group inline-flex items-center gap-2 px-8 py-4 bg-primary text-primary-content font-bold rounded-lg hover:brightness-90 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-primary/20"
                 >
                   {t(heroConfig.ctaPrimary)}
                   <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </a>
                 <a
                   href="#/predictions"
-                  className="group inline-flex items-center gap-2 px-8 py-4 border-2 border-[#00F5FF]/30 text-[#FFFFFF] font-semibold rounded-lg hover:border-[#CCFF00] hover:text-[#CCFF00] transition-all duration-300"
+                  className="group inline-flex items-center gap-2 px-8 py-4 border-2 border-secondary/30 text-base-content font-semibold rounded-lg hover:border-primary hover:text-primary transition-all duration-300"
                 >
                   <Play className="w-5 h-5" />
                   {t(heroConfig.ctaSecondary)}
@@ -126,12 +126,12 @@ export function HeroSection() {
               >
                 {stats.map((stat, index) => (
                   <div key={index} className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-lg bg-[#CCFF00]/10 flex items-center justify-center">
-                      <stat.icon className="w-5 h-5 text-[#CCFF00]" />
+                    <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
+                      <stat.icon className="w-5 h-5 text-primary" />
                     </div>
                     <div>
-                      <p className="text-2xl font-bold text-[#FFFFFF]">{stat.value}</p>
-                      <p className="text-xs text-[#00F5FF]">{stat.label}</p>
+                      <p className="text-2xl font-bold text-base-content">{stat.value}</p>
+                      <p className="text-xs text-secondary">{stat.label}</p>
                     </div>
                   </div>
                 ))}
@@ -149,14 +149,14 @@ export function HeroSection() {
                 className="relative w-full max-w-lg"
               >
                 {/* Prediction Card Mockup */}
-                <div className="relative bg-gradient-to-br from-[#0A2A3A] to-[#011627] border border-[#00F5FF]/20 rounded-2xl p-6 shadow-2xl shadow-black/50">
+                <div className="relative bg-gradient-to-br from-[#0A2A3A] to-[#011627] border border-secondary/20 rounded-2xl p-6 shadow-2xl shadow-black/50">
                   {/* Card Header */}
                   <div className="flex items-center justify-between mb-6">
                     <div className="flex items-center gap-2">
                       <div className="w-3 h-3 rounded-full bg-green-500 animate-pulse" />
-                      <span className="text-[#00F5FF] text-sm">{t('hero.livePredictions')}</span>
+                      <span className="text-secondary text-sm">{t('hero.livePredictions')}</span>
                     </div>
-                    <span className="text-[#CCFF00] text-sm font-medium">{t('hero.today')}</span>
+                    <span className="text-primary text-sm font-medium">{t('hero.today')}</span>
                   </div>
 
                   {/* Match Cards */}
@@ -168,45 +168,45 @@ export function HeroSection() {
                     ].map((match, i) => (
                       <div
                         key={i}
-                        className="bg-[#011627]/50 rounded-xl p-4 border border-[#00F5FF]/10 hover:border-[#CCFF00]/30 transition-colors"
+                        className="bg-base-100/50 rounded-xl p-4 border border-secondary/10 hover:border-primary/30 transition-colors"
                       >
                         <div className="flex items-center justify-between mb-3">
                           <div className="flex items-center gap-2">
-                            <span className="text-[#FFFFFF] font-semibold text-sm">{match.home}</span>
-                            <span className="text-[#00F5FF] text-xs">{t('hero.vs')}</span>
-                            <span className="text-[#FFFFFF] font-semibold text-sm">{match.away}</span>
+                            <span className="text-base-content font-semibold text-sm">{match.home}</span>
+                            <span className="text-secondary text-xs">{t('hero.vs')}</span>
+                            <span className="text-base-content font-semibold text-sm">{match.away}</span>
                           </div>
-                          <span className="px-2 py-1 bg-[#CCFF00]/20 text-[#CCFF00] text-xs font-medium rounded">
+                          <span className="px-2 py-1 bg-primary/20 text-primary text-xs font-medium rounded">
                             +{match.edge}% {t('hero.edge')}
                           </span>
                         </div>
                         <div className="flex items-center gap-4">
                           <div className="flex-1">
-                            <div className="h-2 bg-[#0A2A3A] rounded-full overflow-hidden">
+                            <div className="h-2 bg-base-200 rounded-full overflow-hidden">
                               <div
                                 className="h-full bg-gradient-to-r from-[#CCFF00] to-[#00F5FF] rounded-full"
                                 style={{ width: `${match.prob}%` }}
                               />
                             </div>
                           </div>
-                          <span className="text-[#00F5FF] text-xs">{match.rec}</span>
+                          <span className="text-secondary text-xs">{match.rec}</span>
                         </div>
                       </div>
                     ))}
                   </div>
 
                   {/* Card Footer */}
-                  <div className="mt-6 pt-4 border-t border-[#00F5FF]/10 flex items-center justify-between">
-                    <span className="text-[#00F5FF] text-sm">12 {t('hero.moreMatches')}</span>
-                    <a href="#/predictions" className="text-[#CCFF00] text-sm font-medium hover:underline">
+                  <div className="mt-6 pt-4 border-t border-secondary/10 flex items-center justify-between">
+                    <span className="text-secondary text-sm">12 {t('hero.moreMatches')}</span>
+                    <a href="#/predictions" className="text-primary text-sm font-medium hover:underline">
                       {t('hero.viewAll')}
                     </a>
                   </div>
                 </div>
 
                 {/* Decorative Elements */}
-                <div className="absolute -top-8 -right-8 w-24 h-24 bg-[#CCFF00]/20 rounded-full blur-2xl" />
-                <div className="absolute -bottom-8 -left-8 w-32 h-32 bg-[#00F5FF]/10 rounded-full blur-3xl" />
+                <div className="absolute -top-8 -right-8 w-24 h-24 bg-primary/20 rounded-full blur-2xl" />
+                <div className="absolute -bottom-8 -left-8 w-32 h-32 bg-secondary/10 rounded-full blur-3xl" />
               </motion.div>
             </motion.div>
           </motion.div>

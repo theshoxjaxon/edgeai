@@ -34,9 +34,9 @@ export function LanguageSwitcher() {
     <div className="relative" ref={dropdownRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2 px-3 py-2 rounded-lg bg-[#011627] border border-[#00F5FF]/20 hover:border-[#CCFF00]/40 transition-colors text-[#FFFFFF] text-sm"
+        className="flex items-center gap-2 px-3 py-2 rounded-lg bg-base-100 border border-secondary/20 hover:border-primary/40 transition-colors text-base-content text-sm"
       >
-        <Globe className="w-4 h-4 text-[#00F5FF]" />
+        <Globe className="w-4 h-4 text-secondary" />
         <span className="hidden sm:inline-block uppercase font-medium">{i18n.resolvedLanguage || 'en'}</span>
       </button>
 
@@ -46,7 +46,7 @@ export function LanguageSwitcher() {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 10 }}
-            className="absolute right-0 top-full mt-2 w-32 bg-[#011627] border border-[#00F5FF]/20 rounded-xl shadow-xl overflow-hidden z-50"
+            className="absolute right-0 top-full mt-2 w-32 bg-base-100 border border-secondary/20 rounded-xl shadow-xl overflow-hidden z-50"
           >
             {languages.map((lang) => (
               <button
@@ -54,8 +54,8 @@ export function LanguageSwitcher() {
                 onClick={() => changeLanguage(lang.code)}
                 className={`w-full text-left px-4 py-3 text-sm transition-colors ${
                   i18n.resolvedLanguage === lang.code 
-                    ? 'bg-[#CCFF00]/10 text-[#CCFF00]' 
-                    : 'text-[#FFFFFF] hover:bg-[#00F5FF]/10 hover:text-[#00F5FF]'
+                    ? 'bg-primary/10 text-primary' 
+                    : 'text-base-content hover:bg-secondary/10 hover:text-secondary'
                 }`}
               >
                 {lang.label}

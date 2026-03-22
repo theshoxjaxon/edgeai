@@ -47,7 +47,7 @@ export function Dashboard({ userTier, onLogout }: DashboardProps) {
   });
 
   if (isLoading || !dashboardData) {
-    return <div className="min-h-screen bg-[#011627] pt-20 flex items-center justify-center text-[#CCFF00]">Loading...</div>;
+    return <div className="min-h-screen bg-base-100 pt-20 flex items-center justify-center text-primary">Loading...</div>;
   }
 
   const { matches: allMatches, bets: allBets, statsData } = dashboardData;
@@ -103,7 +103,7 @@ export function Dashboard({ userTier, onLogout }: DashboardProps) {
   const upcomingMatches = allMatches.filter(m => m.status === 'upcoming').slice(0, 5);
 
   return (
-    <div className="min-h-screen bg-[#011627] pt-20">
+    <div className="min-h-screen bg-base-100 pt-20">
       <div className="w-full px-4 sm:px-6 lg:px-8 xl:px-12 py-8">
         <div className="max-w-7xl mx-auto">
           {/* Header */}
@@ -113,24 +113,24 @@ export function Dashboard({ userTier, onLogout }: DashboardProps) {
             className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-8"
           >
             <div>
-              <h1 className="text-3xl font-bold text-[#FFFFFF]">{t('dashboard.title')}</h1>
-              <p className="text-[#00F5FF] mt-1">{t('dashboard.welcome')}</p>
+              <h1 className="text-3xl font-bold text-base-content">{t('dashboard.title')}</h1>
+              <p className="text-secondary mt-1">{t('dashboard.welcome')}</p>
             </div>
             <div className="flex items-center gap-3">
-              <button className="p-2 rounded-lg bg-[#011627] border border-[#00F5FF]/20 text-[#00F5FF] hover:border-[#CCFF00]/40 transition-colors">
+              <button className="p-2 rounded-lg bg-base-100 border border-secondary/20 text-secondary hover:border-primary/40 transition-colors">
                 <Bell className="w-5 h-5" />
               </button>
               <select 
                 value={timeRange}
                 onChange={(e) => setTimeRange(e.target.value)}
-                className="px-4 py-2 bg-[#011627] border border-[#00F5FF]/20 rounded-lg text-[#FFFFFF] text-sm focus:outline-none focus:border-[#CCFF00]/50"
+                className="px-4 py-2 bg-base-100 border border-secondary/20 rounded-lg text-base-content text-sm focus:outline-none focus:border-primary/50"
               >
                 <option value="24h">{t('dashboard.last24h')}</option>
                 <option value="7d">{t('dashboard.last7d')}</option>
                 <option value="30d">{t('dashboard.last30d')}</option>
                 <option value="90d">{t('dashboard.last90d')}</option>
               </select>
-              <button className="flex items-center gap-2 px-4 py-2 bg-[#CCFF00] text-[#011627] font-semibold rounded-lg hover:bg-[#d4b43a] transition-colors">
+              <button className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-content font-semibold rounded-lg hover:brightness-90 transition-colors">
                 <Download className="w-4 h-4" />
                 {t('dashboard.export')}
               </button>
@@ -148,21 +148,21 @@ export function Dashboard({ userTier, onLogout }: DashboardProps) {
               <motion.div
                 key={index}
                 variants={itemVariants}
-                className="bg-gradient-to-br from-[#011627] to-[#0A2A3A] border border-[#00F5FF]/10 rounded-xl p-6 hover:border-[#CCFF00]/30 transition-all duration-300"
+                className="bg-gradient-to-br from-[#011627] to-[#0A2A3A] border border-secondary/10 rounded-xl p-6 hover:border-primary/30 transition-all duration-300"
               >
                 <div className="flex items-start justify-between mb-4">
                   <div className={`w-12 h-12 rounded-lg bg-gradient-to-br ${stat.color} flex items-center justify-center`}>
-                    <stat.icon className="w-6 h-6 text-[#011627]" />
+                    <stat.icon className="w-6 h-6 text-primary-content" />
                   </div>
                   <span className={`text-sm font-medium ${
                     stat.changeType === 'positive' ? 'text-green-400' : 
-                    stat.changeType === 'negative' ? 'text-red-400' : 'text-[#00F5FF]'
+                    stat.changeType === 'negative' ? 'text-red-400' : 'text-secondary'
                   }`}>
                     {stat.change}
                   </span>
                 </div>
-                <p className="text-3xl font-bold text-[#FFFFFF] mb-1">{stat.value}</p>
-                <p className="text-[#00F5FF] text-sm">{stat.label}</p>
+                <p className="text-3xl font-bold text-base-content mb-1">{stat.value}</p>
+                <p className="text-secondary text-sm">{stat.label}</p>
               </motion.div>
             ))}
           </motion.div>
@@ -174,12 +174,12 @@ export function Dashboard({ userTier, onLogout }: DashboardProps) {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
-              className="lg:col-span-2 bg-gradient-to-br from-[#011627] to-[#0A2A3A] border border-[#00F5FF]/10 rounded-xl p-6"
+              className="lg:col-span-2 bg-gradient-to-br from-[#011627] to-[#0A2A3A] border border-secondary/10 rounded-xl p-6"
             >
               <div className="flex items-center justify-between mb-6">
                 <div>
-                  <h2 className="text-xl font-bold text-[#FFFFFF]">{t('dashboard.bankrollGrowth')}</h2>
-                  <p className="text-[#00F5FF] text-sm">{t('dashboard.trackPerformance')}</p>
+                  <h2 className="text-xl font-bold text-base-content">{t('dashboard.bankrollGrowth')}</h2>
+                  <p className="text-secondary text-sm">{t('dashboard.trackPerformance')}</p>
                 </div>
                 <div className="flex items-center gap-2">
                   <span className="px-3 py-1 bg-green-500/10 text-green-400 text-sm rounded-full">+124%</span>
@@ -236,53 +236,53 @@ export function Dashboard({ userTier, onLogout }: DashboardProps) {
               transition={{ delay: 0.4 }}
               className="space-y-4"
             >
-              <div className="bg-gradient-to-br from-[#011627] to-[#0A2A3A] border border-[#00F5FF]/10 rounded-xl p-6">
-                <h3 className="text-lg font-bold text-[#FFFFFF] mb-4">{t('dashboard.performanceMetrics')}</h3>
+              <div className="bg-gradient-to-br from-[#011627] to-[#0A2A3A] border border-secondary/10 rounded-xl p-6">
+                <h3 className="text-lg font-bold text-base-content mb-4">{t('dashboard.performanceMetrics')}</h3>
                 <div className="space-y-4">
                   <div>
                     <div className="flex justify-between text-sm mb-2">
-                      <span className="text-[#00F5FF]">{t('dashboard.roi')}</span>
-                      <span className="text-[#CCFF00] font-bold">+24.3%</span>
+                      <span className="text-secondary">{t('dashboard.roi')}</span>
+                      <span className="text-primary font-bold">+24.3%</span>
                     </div>
-                    <div className="h-2 bg-[#0A2A3A] rounded-full overflow-hidden">
+                    <div className="h-2 bg-base-200 rounded-full overflow-hidden">
                       <div className="h-full w-[73%] bg-gradient-to-r from-[#CCFF00] to-[#d4b43a] rounded-full" />
                     </div>
                   </div>
                   <div>
                     <div className="flex justify-between text-sm mb-2">
-                      <span className="text-[#00F5FF]">{t('dashboard.winRate')}</span>
-                      <span className="text-[#CCFF00] font-bold">73%</span>
+                      <span className="text-secondary">{t('dashboard.winRate')}</span>
+                      <span className="text-primary font-bold">73%</span>
                     </div>
-                    <div className="h-2 bg-[#0A2A3A] rounded-full overflow-hidden">
+                    <div className="h-2 bg-base-200 rounded-full overflow-hidden">
                       <div className="h-full w-[73%] bg-gradient-to-r from-[#00F5FF] to-[#a0c9a0] rounded-full" />
                     </div>
                   </div>
                   <div>
                     <div className="flex justify-between text-sm mb-2">
-                      <span className="text-[#00F5FF]">{t('dashboard.avgEdge')}</span>
-                      <span className="text-[#CCFF00] font-bold">8.5%</span>
+                      <span className="text-secondary">{t('dashboard.avgEdge')}</span>
+                      <span className="text-primary font-bold">8.5%</span>
                     </div>
-                    <div className="h-2 bg-[#0A2A3A] rounded-full overflow-hidden">
+                    <div className="h-2 bg-base-200 rounded-full overflow-hidden">
                       <div className="h-full w-[85%] bg-gradient-to-r from-green-500 to-green-400 rounded-full" />
                     </div>
                   </div>
                 </div>
               </div>
 
-              <div className="bg-gradient-to-br from-[#011627] to-[#0A2A3A] border border-[#00F5FF]/10 rounded-xl p-6">
-                <h3 className="text-lg font-bold text-[#FFFFFF] mb-4">{t('dashboard.subscription')}</h3>
+              <div className="bg-gradient-to-br from-[#011627] to-[#0A2A3A] border border-secondary/10 rounded-xl p-6">
+                <h3 className="text-lg font-bold text-base-content mb-4">{t('dashboard.subscription')}</h3>
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-lg bg-[#CCFF00]/20 flex items-center justify-center">
-                    <Trophy className="w-6 h-6 text-[#CCFF00]" />
+                  <div className="w-12 h-12 rounded-lg bg-primary/20 flex items-center justify-center">
+                    <Trophy className="w-6 h-6 text-primary" />
                   </div>
                   <div>
-                    <p className="text-[#FFFFFF] font-semibold">Pro Plan</p>
-                    <p className="text-[#00F5FF] text-sm">Renews in 12 days</p>
+                    <p className="text-base-content font-semibold">Pro Plan</p>
+                    <p className="text-secondary text-sm">Renews in 12 days</p>
                   </div>
                 </div>
                 <a 
                   href="#/profile"
-                  className="mt-4 block w-full py-2 text-center border border-[#00F5FF]/20 text-[#00F5FF] rounded-lg hover:border-[#CCFF00] hover:text-[#CCFF00] transition-colors text-sm"
+                  className="mt-4 block w-full py-2 text-center border border-secondary/20 text-secondary rounded-lg hover:border-primary hover:text-primary transition-colors text-sm"
                 >
                   {t('dashboard.manageSub')}
                 </a>
@@ -297,12 +297,12 @@ export function Dashboard({ userTier, onLogout }: DashboardProps) {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5 }}
-              className="bg-gradient-to-br from-[#011627] to-[#0A2A3A] border border-[#00F5FF]/10 rounded-xl overflow-hidden"
+              className="bg-gradient-to-br from-[#011627] to-[#0A2A3A] border border-secondary/10 rounded-xl overflow-hidden"
             >
-              <div className="p-6 border-b border-[#00F5FF]/10">
+              <div className="p-6 border-b border-secondary/10">
                 <div className="flex items-center justify-between">
-                  <h2 className="text-xl font-bold text-[#FFFFFF]">{t('dashboard.todaysBets')}</h2>
-                  <a href="#/predictions" className="text-[#CCFF00] text-sm hover:underline flex items-center gap-1">
+                  <h2 className="text-xl font-bold text-base-content">{t('dashboard.todaysBets')}</h2>
+                  <a href="#/predictions" className="text-primary text-sm hover:underline flex items-center gap-1">
                     {t('dashboard.viewAll')} <ChevronRight className="w-4 h-4" />
                   </a>
                 </div>
@@ -312,20 +312,20 @@ export function Dashboard({ userTier, onLogout }: DashboardProps) {
                   <a
                     key={match.id}
                     href={`#/match/${match.id}`}
-                    className="flex items-center justify-between p-4 hover:bg-[#0A2A3A] transition-colors"
+                    className="flex items-center justify-between p-4 hover:bg-base-200 transition-colors"
                   >
                     <div className="flex items-center gap-4">
                       <div className="text-center w-16">
-                        <p className="text-[#00F5FF] text-xs">{match.league}</p>
-                        <p className="text-[#CCFF00] text-sm font-medium">{match.kickoff}</p>
+                        <p className="text-secondary text-xs">{match.league}</p>
+                        <p className="text-primary text-sm font-medium">{match.kickoff}</p>
                       </div>
                       <div>
-                        <p className="text-[#FFFFFF] font-medium">{match.homeTeam} vs {match.awayTeam}</p>
+                        <p className="text-base-content font-medium">{match.homeTeam} vs {match.awayTeam}</p>
                         <div className="flex items-center gap-2 mt-1">
-                          <span className="px-2 py-0.5 bg-[#CCFF00]/10 text-[#CCFF00] text-xs rounded">
+                          <span className="px-2 py-0.5 bg-primary/10 text-primary text-xs rounded">
                             {match.prediction}
                           </span>
-                          <span className="text-[#00F5FF] text-xs">{match.confidence}% confidence</span>
+                          <span className="text-secondary text-xs">{match.confidence}% confidence</span>
                         </div>
                       </div>
                     </div>
@@ -344,12 +344,12 @@ export function Dashboard({ userTier, onLogout }: DashboardProps) {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.6 }}
-              className="bg-gradient-to-br from-[#011627] to-[#0A2A3A] border border-[#00F5FF]/10 rounded-xl overflow-hidden"
+              className="bg-gradient-to-br from-[#011627] to-[#0A2A3A] border border-secondary/10 rounded-xl overflow-hidden"
             >
-              <div className="p-6 border-b border-[#00F5FF]/10">
+              <div className="p-6 border-b border-secondary/10">
                 <div className="flex items-center justify-between">
-                  <h2 className="text-xl font-bold text-[#FFFFFF]">{t('dashboard.recentBets')}</h2>
-                  <a href="#/bets" className="text-[#CCFF00] text-sm hover:underline flex items-center gap-1">
+                  <h2 className="text-xl font-bold text-base-content">{t('dashboard.recentBets')}</h2>
+                  <a href="#/bets" className="text-primary text-sm hover:underline flex items-center gap-1">
                     {t('dashboard.viewAll')} <ChevronRight className="w-4 h-4" />
                   </a>
                 </div>
@@ -358,21 +358,21 @@ export function Dashboard({ userTier, onLogout }: DashboardProps) {
                 {recentBets.map((bet) => (
                   <div
                     key={bet.id}
-                    className="flex items-center justify-between p-4 hover:bg-[#0A2A3A] transition-colors"
+                    className="flex items-center justify-between p-4 hover:bg-base-200 transition-colors"
                   >
                     <div>
-                      <p className="text-[#FFFFFF] font-medium">{bet.match}</p>
+                      <p className="text-base-content font-medium">{bet.match}</p>
                       <div className="flex items-center gap-2 mt-1">
-                        <span className="text-[#00F5FF] text-sm">{bet.selection}</span>
-                        <span className="text-[#00F5FF]/50">•</span>
-                        <span className="text-[#00F5FF] text-sm">@{bet.odds}</span>
+                        <span className="text-secondary text-sm">{bet.selection}</span>
+                        <span className="text-secondary/50">•</span>
+                        <span className="text-secondary text-sm">@{bet.odds}</span>
                       </div>
                     </div>
                     <div className="text-right">
                       <span className={`px-3 py-1 text-sm font-medium rounded-full ${
                         bet.result === 'win' ? 'bg-green-500/10 text-green-400' :
                         bet.result === 'loss' ? 'bg-red-500/10 text-red-400' :
-                        'bg-[#00F5FF]/10 text-[#00F5FF]'
+                        'bg-secondary/10 text-secondary'
                       }`}>
                         {bet.result === 'win' ? `+$${bet.profit}` :
                          bet.result === 'loss' ? `-$${bet.stake}` :

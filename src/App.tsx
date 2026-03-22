@@ -32,7 +32,7 @@ function useHashRouter() {
 
 function LandingPage() {
   return (
-    <main className="relative w-full overflow-x-hidden bg-[#011627]">
+    <main className="relative w-full overflow-x-hidden bg-base-100">
       <HeroSection />
       <StorySection />
       <ProductSection />
@@ -53,9 +53,11 @@ function App() {
   const [authMode, setAuthMode] = useState<'login' | 'signup'>('login');
 
   // Update document title
-  useEffect(() => {
-    document.title = siteConfig.title;
-  }, []);
+// Apply saved theme on app load
+useEffect(() => {
+  const savedTheme = localStorage.getItem('theme') || 'dark';
+  document.documentElement.setAttribute('data-theme', savedTheme);
+}, []);
 
   // Check if route requires authentication
   const protectedRoutes = ['#/dashboard', '#/predictions', '#/bets', '#/profile', '#/admin'];
@@ -127,7 +129,7 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#011627]">
+    <div className="min-h-screen bg-base-100">
       <Navigation 
         isAuthenticated={isAuthenticated} 
         userRole={userRole}

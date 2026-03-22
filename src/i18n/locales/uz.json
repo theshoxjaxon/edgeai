@@ -263,5 +263,28 @@
     "edge": "ustunlik",
     "moreMatches": "qo'shimcha o'yin",
     "viewAll": "Barchasi"
+  },
+  "footer": {
+    "brandName": "EdgeAI",
+    "brandTagline": "Bukmekerlarni yeng",
+    "brandDescription": "Sun'iy intellektga asoslangan futbol bashoratlari. Minglab muvaffaqiyatli o'yinchilarga qo'shiling.",
+    "quickLinks": "Tezkor Havolalar",
+    "contactUs": "Biz Bilan Bog'lanish",
+    "getWinningTips": "Maslahatlar Olish",
+    "subscribeDesc": "Kunlik qimmatli garovlar va eksklyuziv takliflarni olish uchun obuna bo'ling.",
+    "placeholder": "Emailingizni kiriting",
+    "subscribe": "Obuna bo'lish",
+    "subscribed": "Obuna bo'ldingiz!",
+    "copyright": "© 2024 EdgeAI. Barcha huquqlar himoyalangan.",
+    "authorCredit": "© 2025 Shokhjakhon Kholmurodov. Barcha huquqlar himoyalangan.",
+    "responsibleGambling": "Iltimos, mas'uliyat bilan o'ynang. Garov tikish tavakkalni talab qiladi. Yordam kerak bo'lsa, tashrif buyuring",
+    "nav_dashboard": "Boshqaruv paneli",
+    "nav_predictions": "Bashoratlar",
+    "nav_bets": "Garovlar",
+    "nav_pricing": "Narxlar",
+    "nav_profile": "Profil",
+    "policy_privacy": "Maxfiylik siyosati",
+    "policy_terms": "Xizmat ko'rsatish shartlari",
+    "policy_responsible": "Mas'uliyatli qimor"
   }
 }

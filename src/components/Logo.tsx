@@ -103,7 +103,7 @@ export function Logo({ className = '' }: { className?: string }) {
         style={{ fontFamily: "'Avenir Next', 'system-ui', sans-serif" }}
       >
         <span className="text-white font-bold tracking-tight text-xl">EDGE</span>
-        <span className="text-[#CCFF00] font-black tracking-tight text-xl">AI</span>
+        <span className="text-primary font-black tracking-tight text-xl">AI</span>
       </motion.div>
     </div>
   );

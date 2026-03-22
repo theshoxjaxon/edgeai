@@ -30,11 +30,11 @@ export function TastingSection() {
   return (
     <section
       ref={sectionRef}
-      className="relative w-full py-24 lg:py-32 bg-[#011627]"
+      className="relative w-full py-24 lg:py-32 bg-base-100"
     >
       {/* Background */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-[#CCFF00]/5 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-primary/5 rounded-full blur-3xl" />
       </div>
 
       <div className="relative z-10 w-full px-4 sm:px-6 lg:px-8 xl:px-12">
@@ -46,16 +46,16 @@ export function TastingSection() {
             transition={{ duration: 0.8, ease: [0.215, 0.61, 0.355, 1] }}
             className="text-center mb-16"
           >
-            <span className="inline-block px-4 py-2 rounded-full bg-[#CCFF00]/10 text-[#CCFF00] text-sm font-medium mb-6">
+            <span className="inline-block px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-6">
               {performanceConfig.label}
             </span>
             <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-4">
               {performanceConfig.heading.map((line, i) => (
-                <span key={i} className="text-[#FFFFFF] block">{line}</span>
+                <span key={i} className="text-base-content block">{line}</span>
               ))}
-              <span className="text-[#CCFF00] block">{performanceConfig.headingAccent}</span>
+              <span className="text-primary block">{performanceConfig.headingAccent}</span>
             </h2>
-            <p className="text-[#00F5FF] text-lg max-w-2xl mx-auto mt-6">
+            <p className="text-secondary text-lg max-w-2xl mx-auto mt-6">
               {performanceConfig.description}
             </p>
           </motion.div>
@@ -70,16 +70,16 @@ export function TastingSection() {
                   initial={{ opacity: 0, y: 30 }}
                   animate={isInView ? { opacity: 1, y: 0 } : {}}
                   transition={{ duration: 0.6, delay: 0.2 + index * 0.1 }}
-                  className="group bg-gradient-to-br from-[#0A2A3A] to-[#011627] border border-[#00F5FF]/10 hover:border-[#CCFF00]/30 rounded-xl p-6 transition-all duration-300"
+                  className="group bg-gradient-to-br from-[#0A2A3A] to-[#011627] border border-secondary/10 hover:border-primary/30 rounded-xl p-6 transition-all duration-300"
                 >
-                  <div className="w-12 h-12 rounded-lg bg-[#CCFF00]/10 flex items-center justify-center mb-4 group-hover:bg-[#CCFF00]/20 transition-colors">
-                    <Icon className="w-6 h-6 text-[#CCFF00]" />
+                  <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
+                    <Icon className="w-6 h-6 text-primary" />
                   </div>
-                  <h3 className="text-[#FFFFFF] font-bold text-lg mb-2">{card.title}</h3>
-                  <p className="text-[#00F5FF] text-sm mb-4">{card.description}</p>
+                  <h3 className="text-base-content font-bold text-lg mb-2">{card.title}</h3>
+                  <p className="text-secondary text-sm mb-4">{card.description}</p>
                   <div className="flex flex-wrap gap-2">
                     {card.metrics.map((metric, i) => (
-                      <span key={i} className="px-2 py-1 bg-[#CCFF00]/10 text-[#CCFF00] text-xs font-medium rounded">
+                      <span key={i} className="px-2 py-1 bg-primary/10 text-primary text-xs font-medium rounded">
                         {metric}
                       </span>
                     ))}
@@ -94,25 +94,25 @@ export function TastingSection() {
             initial={{ opacity: 0, y: 40 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.6 }}
-            className="bg-gradient-to-br from-[#0A2A3A] to-[#011627] border border-[#00F5FF]/10 rounded-2xl p-6 lg:p-8"
+            className="bg-gradient-to-br from-[#0A2A3A] to-[#011627] border border-secondary/10 rounded-2xl p-6 lg:p-8"
           >
             <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-8">
               <div>
-                <h3 className="text-xl font-bold text-[#FFFFFF] mb-2">
+                <h3 className="text-xl font-bold text-base-content mb-2">
                   {performanceConfig.chartData.title}
                 </h3>
-                <p className="text-[#00F5FF] text-sm">
+                <p className="text-secondary text-sm">
                   {performanceConfig.chartData.description}
                 </p>
               </div>
               <div className="flex items-center gap-6 mt-4 lg:mt-0">
                 <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 rounded-full bg-[#CCFF00]" />
-                  <span className="text-[#00F5FF] text-sm">Bankroll</span>
+                  <div className="w-3 h-3 rounded-full bg-primary" />
+                  <span className="text-secondary text-sm">Bankroll</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 rounded-full bg-[#00F5FF]" />
-                  <span className="text-[#00F5FF] text-sm">Bets Placed</span>
+                  <div className="w-3 h-3 rounded-full bg-secondary" />
+                  <span className="text-secondary text-sm">Bets Placed</span>
                 </div>
               </div>
             </div>
@@ -184,18 +184,18 @@ export function TastingSection() {
             </div>
 
             {/* Key Metrics */}
-            <div className="grid grid-cols-3 gap-6 mt-8 pt-6 border-t border-[#00F5FF]/10">
+            <div className="grid grid-cols-3 gap-6 mt-8 pt-6 border-t border-secondary/10">
               <div className="text-center">
-                <p className="text-3xl font-bold text-[#CCFF00]">+124%</p>
-                <p className="text-[#00F5FF] text-sm">Total Return</p>
+                <p className="text-3xl font-bold text-primary">+124%</p>
+                <p className="text-secondary text-sm">Total Return</p>
               </div>
               <div className="text-center">
-                <p className="text-3xl font-bold text-[#FFFFFF]">267</p>
-                <p className="text-[#00F5FF] text-sm">Bets Placed</p>
+                <p className="text-3xl font-bold text-base-content">267</p>
+                <p className="text-secondary text-sm">Bets Placed</p>
               </div>
               <div className="text-center">
-                <p className="text-3xl font-bold text-[#00F5FF]">$1,240</p>
-                <p className="text-[#00F5FF] text-sm">Net Profit</p>
+                <p className="text-3xl font-bold text-secondary">$1,240</p>
+                <p className="text-secondary text-sm">Net Profit</p>
               </div>
             </div>
           </motion.div>

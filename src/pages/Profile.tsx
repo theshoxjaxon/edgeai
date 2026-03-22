@@ -31,7 +31,7 @@ export function Profile({ onLogout }: ProfileProps) {
   });
 
   if (isLoading || !profile) {
-    return <div className="min-h-screen bg-[#011627] pt-20 flex items-center justify-center text-[#CCFF00]">Loading profile...</div>;
+    return <div className="min-h-screen bg-base-100 pt-20 flex items-center justify-center text-primary">Loading profile...</div>;
   }
 
   const tabs = [
@@ -43,7 +43,7 @@ export function Profile({ onLogout }: ProfileProps) {
   ];
 
   return (
-    <div className="min-h-screen bg-[#011627] pt-20">
+    <div className="min-h-screen bg-base-100 pt-20">
       <div className="w-full px-4 sm:px-6 lg:px-8 xl:px-12 py-8">
         <div className="max-w-7xl mx-auto">
           {/* Header */}
@@ -52,8 +52,8 @@ export function Profile({ onLogout }: ProfileProps) {
             animate={{ opacity: 1, y: 0 }}
             className="mb-8"
           >
-            <h1 className="text-3xl font-bold text-[#FFFFFF]">{t('profile.title')}</h1>
-            <p className="text-[#00F5FF] mt-1">{t('profile.desc')}</p>
+            <h1 className="text-3xl font-bold text-base-content">{t('profile.title')}</h1>
+            <p className="text-secondary mt-1">{t('profile.desc')}</p>
           </motion.div>
 
           <div className="grid lg:grid-cols-4 gap-8">
@@ -65,22 +65,22 @@ export function Profile({ onLogout }: ProfileProps) {
               className="lg:col-span-1"
             >
               {/* User Card */}
-              <div className="bg-gradient-to-br from-[#011627] to-[#0A2A3A] border border-[#00F5FF]/10 rounded-xl p-6 mb-6">
+              <div className="bg-gradient-to-br from-[#011627] to-[#0A2A3A] border border-secondary/10 rounded-xl p-6 mb-6">
                 <div className="flex items-center gap-4">
                   <div className="w-16 h-16 rounded-full bg-gradient-to-br from-[#CCFF00] to-[#00F5FF] flex items-center justify-center">
-                    <span className="text-[#011627] font-bold text-2xl">{profile.name.split(' ').map((n: string) => n[0]).join('')}</span>
+                    <span className="text-primary-content font-bold text-2xl">{profile.name.split(' ').map((n: string) => n[0]).join('')}</span>
                   </div>
                   <div>
-                    <p className="text-[#FFFFFF] font-semibold">{profile.name}</p>
-                    <p className="text-[#00F5FF] text-sm">{profile.email}</p>
+                    <p className="text-base-content font-semibold">{profile.name}</p>
+                    <p className="text-secondary text-sm">{profile.email}</p>
                   </div>
                 </div>
-                <div className="mt-4 pt-4 border-t border-[#00F5FF]/10">
+                <div className="mt-4 pt-4 border-t border-secondary/10">
                   <div className="flex items-center gap-2">
-                    <Trophy className="w-4 h-4 text-[#CCFF00]" />
-                    <span className="text-[#CCFF00] text-sm font-medium">{profile.tier} Plan</span>
+                    <Trophy className="w-4 h-4 text-primary" />
+                    <span className="text-primary text-sm font-medium">{profile.tier} Plan</span>
                   </div>
-                  <p className="text-[#00F5FF] text-xs mt-1">Renews on {profile.renewalDate}</p>
+                  <p className="text-secondary text-xs mt-1">Renews on {profile.renewalDate}</p>
                 </div>
               </div>
 
@@ -92,8 +92,8 @@ export function Profile({ onLogout }: ProfileProps) {
                     onClick={() => setActiveTab(tab.id)}
                     className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
                       activeTab === tab.id
-                        ? 'bg-[#CCFF00]/10 text-[#CCFF00] border border-[#CCFF00]/30'
-                        : 'text-[#00F5FF] hover:bg-[#011627] hover:text-[#FFFFFF]'
+                        ? 'bg-primary/10 text-primary border border-primary/30'
+                        : 'text-secondary hover:bg-base-100 hover:text-base-content'
                     }`}
                   >
                     <tab.icon className="w-5 h-5" />
@@ -119,46 +119,46 @@ export function Profile({ onLogout }: ProfileProps) {
             >
               {/* General Settings */}
               {activeTab === 'general' && (
-                <div className="bg-gradient-to-br from-[#011627] to-[#0A2A3A] border border-[#00F5FF]/10 rounded-xl p-6">
-                  <h2 className="text-xl font-bold text-[#FFFFFF] mb-6">{t('profile.generalSettings')}</h2>
+                <div className="bg-gradient-to-br from-[#011627] to-[#0A2A3A] border border-secondary/10 rounded-xl p-6">
+                  <h2 className="text-xl font-bold text-base-content mb-6">{t('profile.generalSettings')}</h2>
                   <div className="space-y-6">
                     <div className="grid md:grid-cols-2 gap-6">
                       <div>
-                        <label className="block text-[#00F5FF] text-sm mb-2">{t('profile.fullName')}</label>
+                        <label className="block text-secondary text-sm mb-2">{t('profile.fullName')}</label>
                         <input
                           type="text"
                           defaultValue="John Doe"
-                          className="w-full px-4 py-3 bg-[#0A2A3A] border border-[#00F5FF]/20 rounded-lg text-[#FFFFFF] focus:outline-none focus:border-[#CCFF00]/50"
+                          className="w-full px-4 py-3 bg-base-200 border border-secondary/20 rounded-lg text-base-content focus:outline-none focus:border-primary/50"
                         />
                       </div>
                       <div>
-                        <label className="block text-[#00F5FF] text-sm mb-2">{t('profile.email')}</label>
+                        <label className="block text-secondary text-sm mb-2">{t('profile.email')}</label>
                         <input
                           type="email"
                           defaultValue="john@example.com"
-                          className="w-full px-4 py-3 bg-[#0A2A3A] border border-[#00F5FF]/20 rounded-lg text-[#FFFFFF] focus:outline-none focus:border-[#CCFF00]/50"
+                          className="w-full px-4 py-3 bg-base-200 border border-secondary/20 rounded-lg text-base-content focus:outline-none focus:border-primary/50"
                         />
                       </div>
                     </div>
                     <div>
-                      <label className="block text-[#00F5FF] text-sm mb-2">{t('profile.phone')}</label>
+                      <label className="block text-secondary text-sm mb-2">{t('profile.phone')}</label>
                       <input
                         type="tel"
                         placeholder="+1 (555) 000-0000"
-                        className="w-full px-4 py-3 bg-[#0A2A3A] border border-[#00F5FF]/20 rounded-lg text-[#FFFFFF] placeholder-[#00F5FF]/50 focus:outline-none focus:border-[#CCFF00]/50"
+                        className="w-full px-4 py-3 bg-base-200 border border-secondary/20 rounded-lg text-base-content placeholder-secondary/50 focus:outline-none focus:border-primary/50"
                       />
                     </div>
                     <div>
-                      <label className="block text-[#00F5FF] text-sm mb-2">{t('profile.timezone')}</label>
-                      <select className="w-full px-4 py-3 bg-[#0A2A3A] border border-[#00F5FF]/20 rounded-lg text-[#FFFFFF] focus:outline-none focus:border-[#CCFF00]/50">
+                      <label className="block text-secondary text-sm mb-2">{t('profile.timezone')}</label>
+                      <select className="w-full px-4 py-3 bg-base-200 border border-secondary/20 rounded-lg text-base-content focus:outline-none focus:border-primary/50">
                         <option>UTC-05:00 Eastern Time</option>
                         <option>UTC-08:00 Pacific Time</option>
                         <option>UTC+00:00 London</option>
                         <option>UTC+01:00 Central Europe</option>
                       </select>
                     </div>
-                    <div className="pt-4 border-t border-[#00F5FF]/10">
-                      <button className="px-6 py-3 bg-[#CCFF00] text-[#011627] font-bold rounded-lg hover:bg-[#d4b43a] transition-colors">
+                    <div className="pt-4 border-t border-secondary/10">
+                      <button className="px-6 py-3 bg-primary text-primary-content font-bold rounded-lg hover:brightness-90 transition-colors">
                         {t('profile.saveChanges')}
                       </button>
                     </div>
@@ -169,20 +169,20 @@ export function Profile({ onLogout }: ProfileProps) {
               {/* Subscription */}
               {activeTab === 'subscription' && (
                 <div className="space-y-6">
-                  <div className="bg-gradient-to-br from-[#011627] to-[#0A2A3A] border border-[#CCFF00]/30 rounded-xl p-6">
+                  <div className="bg-gradient-to-br from-[#011627] to-[#0A2A3A] border border-primary/30 rounded-xl p-6">
                     <div className="flex items-start justify-between">
                       <div>
                         <div className="flex items-center gap-2 mb-2">
-                          <Trophy className="w-5 h-5 text-[#CCFF00]" />
-                          <span className="text-[#CCFF00] font-semibold">Pro Plan</span>
+                          <Trophy className="w-5 h-5 text-primary" />
+                          <span className="text-primary font-semibold">Pro Plan</span>
                         </div>
-                        <p className="text-[#FFFFFF] text-2xl font-bold">$49/month</p>
-                        <p className="text-[#00F5FF] text-sm mt-1">Next billing: April 15, 2024</p>
+                        <p className="text-base-content text-2xl font-bold">$49/month</p>
+                        <p className="text-secondary text-sm mt-1">Next billing: April 15, 2024</p>
                       </div>
                       <span className="px-3 py-1 bg-green-500/10 text-green-400 text-sm rounded-full">Active</span>
                     </div>
-                    <div className="mt-6 pt-6 border-t border-[#00F5FF]/10">
-                      <h4 className="text-[#FFFFFF] font-semibold mb-4">{t('profile.planFeatures')}</h4>
+                    <div className="mt-6 pt-6 border-t border-secondary/10">
+                      <h4 className="text-base-content font-semibold mb-4">{t('profile.planFeatures')}</h4>
                       <ul className="space-y-2">
                         {[
                           'Unlimited predictions',
@@ -192,8 +192,8 @@ export function Profile({ onLogout }: ProfileProps) {
                           'Bet tracking & analytics',
                           'Email & SMS alerts',
                         ].map((feature, i) => (
-                          <li key={i} className="flex items-center gap-2 text-[#00F5FF]">
-                            <Check className="w-4 h-4 text-[#CCFF00]" />
+                          <li key={i} className="flex items-center gap-2 text-secondary">
+                            <Check className="w-4 h-4 text-primary" />
                             {feature}
                           </li>
                         ))}
@@ -201,17 +201,17 @@ export function Profile({ onLogout }: ProfileProps) {
                     </div>
                   </div>
 
-                  <div className="bg-gradient-to-br from-[#011627] to-[#0A2A3A] border border-[#00F5FF]/10 rounded-xl p-6">
-                    <h4 className="text-[#FFFFFF] font-semibold mb-4">{t('profile.paymentMethod')}</h4>
-                    <div className="flex items-center gap-4 p-4 bg-[#0A2A3A] rounded-lg">
+                  <div className="bg-gradient-to-br from-[#011627] to-[#0A2A3A] border border-secondary/10 rounded-xl p-6">
+                    <h4 className="text-base-content font-semibold mb-4">{t('profile.paymentMethod')}</h4>
+                    <div className="flex items-center gap-4 p-4 bg-base-200 rounded-lg">
                       <div className="w-12 h-8 bg-gradient-to-r from-[#1a1f71] to-[#0d1b5e] rounded flex items-center justify-center">
                         <span className="text-white text-xs font-bold">VISA</span>
                       </div>
                       <div>
-                        <p className="text-[#FFFFFF]">•••• •••• •••• 4242</p>
-                        <p className="text-[#00F5FF] text-sm">Expires 12/25</p>
+                        <p className="text-base-content">•••• •••• •••• 4242</p>
+                        <p className="text-secondary text-sm">Expires 12/25</p>
                       </div>
-                      <button className="ml-auto text-[#CCFF00] text-sm hover:underline">
+                      <button className="ml-auto text-primary text-sm hover:underline">
                         {t('profile.change')}
                       </button>
                     </div>
@@ -221,26 +221,26 @@ export function Profile({ onLogout }: ProfileProps) {
 
               {/* Notifications */}
               {activeTab === 'notifications' && (
-                <div className="bg-gradient-to-br from-[#011627] to-[#0A2A3A] border border-[#00F5FF]/10 rounded-xl p-6">
-                  <h2 className="text-xl font-bold text-[#FFFFFF] mb-6">{t('profile.notificationPrefs')}</h2>
+                <div className="bg-gradient-to-br from-[#011627] to-[#0A2A3A] border border-secondary/10 rounded-xl p-6">
+                  <h2 className="text-xl font-bold text-base-content mb-6">{t('profile.notificationPrefs')}</h2>
                   <div className="space-y-6">
                     <div>
-                      <h4 className="text-[#FFFFFF] font-semibold mb-4">{t('profile.channels')}</h4>
+                      <h4 className="text-base-content font-semibold mb-4">{t('profile.channels')}</h4>
                       <div className="space-y-4">
                         {[
                           { key: 'email', label: t('profile.emailNotif'), icon: Mail },
                           { key: 'sms', label: t('profile.smsNotif'), icon: Smartphone },
                           { key: 'push', label: t('profile.pushNotif'), icon: Bell },
                         ].map(({ key, label, icon: Icon }) => (
-                          <div key={key} className="flex items-center justify-between p-4 bg-[#0A2A3A] rounded-lg">
+                          <div key={key} className="flex items-center justify-between p-4 bg-base-200 rounded-lg">
                             <div className="flex items-center gap-3">
-                              <Icon className="w-5 h-5 text-[#00F5FF]" />
-                              <span className="text-[#FFFFFF]">{label}</span>
+                              <Icon className="w-5 h-5 text-secondary" />
+                              <span className="text-base-content">{label}</span>
                             </div>
                             <button
                               onClick={() => setNotifications({ ...notifications, [key]: !notifications[key as keyof typeof notifications] })}
                               className={`w-12 h-6 rounded-full transition-colors relative ${
-                                notifications[key as keyof typeof notifications] ? 'bg-[#CCFF00]' : 'bg-[#00F5FF]/20'
+                                notifications[key as keyof typeof notifications] ? 'bg-primary' : 'bg-secondary/20'
                               }`}
                             >
                               <span className={`absolute top-1 w-4 h-4 rounded-full bg-white transition-all ${
@@ -251,23 +251,23 @@ export function Profile({ onLogout }: ProfileProps) {
                         ))}
                       </div>
                     </div>
-                    <div className="pt-6 border-t border-[#00F5FF]/10">
-                      <h4 className="text-[#FFFFFF] font-semibold mb-4">{t('profile.alerts')}</h4>
+                    <div className="pt-6 border-t border-secondary/10">
+                      <h4 className="text-base-content font-semibold mb-4">{t('profile.alerts')}</h4>
                       <div className="space-y-4">
                         {[
                           { key: 'valueBets', label: t('profile.valueBetAlerts'), desc: t('profile.valueBetDesc') },
                           { key: 'results', label: t('profile.matchResults'), desc: t('profile.resultsDesc') },
                           { key: 'newsletter', label: t('profile.newsletter'), desc: t('profile.newsletterDesc') },
                         ].map(({ key, label, desc }) => (
-                          <div key={key} className="flex items-center justify-between p-4 bg-[#0A2A3A] rounded-lg">
+                          <div key={key} className="flex items-center justify-between p-4 bg-base-200 rounded-lg">
                             <div>
-                              <p className="text-[#FFFFFF]">{label}</p>
-                              <p className="text-[#00F5FF] text-sm">{desc}</p>
+                              <p className="text-base-content">{label}</p>
+                              <p className="text-secondary text-sm">{desc}</p>
                             </div>
                             <button
                               onClick={() => setNotifications({ ...notifications, [key]: !notifications[key as keyof typeof notifications] })}
                               className={`w-12 h-6 rounded-full transition-colors relative ${
-                                notifications[key as keyof typeof notifications] ? 'bg-[#CCFF00]' : 'bg-[#00F5FF]/20'
+                                notifications[key as keyof typeof notifications] ? 'bg-primary' : 'bg-secondary/20'
                               }`}
                             >
                               <span className={`absolute top-1 w-4 h-4 rounded-full bg-white transition-all ${
@@ -285,50 +285,50 @@ export function Profile({ onLogout }: ProfileProps) {
               {/* Security */}
               {activeTab === 'security' && (
                 <div className="space-y-6">
-                  <div className="bg-gradient-to-br from-[#011627] to-[#0A2A3A] border border-[#00F5FF]/10 rounded-xl p-6">
-                    <h2 className="text-xl font-bold text-[#FFFFFF] mb-6">{t('profile.security')}</h2>
+                  <div className="bg-gradient-to-br from-[#011627] to-[#0A2A3A] border border-secondary/10 rounded-xl p-6">
+                    <h2 className="text-xl font-bold text-base-content mb-6">{t('profile.security')}</h2>
                     <div className="space-y-6">
                       <div>
-                        <label className="block text-[#00F5FF] text-sm mb-2">{t('profile.currentPass')}</label>
+                        <label className="block text-secondary text-sm mb-2">{t('profile.currentPass')}</label>
                         <input
                           type="password"
                           placeholder="••••••••"
-                          className="w-full px-4 py-3 bg-[#0A2A3A] border border-[#00F5FF]/20 rounded-lg text-[#FFFFFF] focus:outline-none focus:border-[#CCFF00]/50"
+                          className="w-full px-4 py-3 bg-base-200 border border-secondary/20 rounded-lg text-base-content focus:outline-none focus:border-primary/50"
                         />
                       </div>
                       <div>
-                        <label className="block text-[#00F5FF] text-sm mb-2">{t('profile.newPass')}</label>
+                        <label className="block text-secondary text-sm mb-2">{t('profile.newPass')}</label>
                         <input
                           type="password"
                           placeholder="••••••••"
-                          className="w-full px-4 py-3 bg-[#0A2A3A] border border-[#00F5FF]/20 rounded-lg text-[#FFFFFF] focus:outline-none focus:border-[#CCFF00]/50"
+                          className="w-full px-4 py-3 bg-base-200 border border-secondary/20 rounded-lg text-base-content focus:outline-none focus:border-primary/50"
                         />
                       </div>
                       <div>
-                        <label className="block text-[#00F5FF] text-sm mb-2">{t('profile.confirmPass')}</label>
+                        <label className="block text-secondary text-sm mb-2">{t('profile.confirmPass')}</label>
                         <input
                           type="password"
                           placeholder="••••••••"
-                          className="w-full px-4 py-3 bg-[#0A2A3A] border border-[#00F5FF]/20 rounded-lg text-[#FFFFFF] focus:outline-none focus:border-[#CCFF00]/50"
+                          className="w-full px-4 py-3 bg-base-200 border border-secondary/20 rounded-lg text-base-content focus:outline-none focus:border-primary/50"
                         />
                       </div>
-                      <button className="px-6 py-3 bg-[#CCFF00] text-[#011627] font-bold rounded-lg hover:bg-[#d4b43a] transition-colors">
+                      <button className="px-6 py-3 bg-primary text-primary-content font-bold rounded-lg hover:brightness-90 transition-colors">
                         {t('profile.updatePass')}
                       </button>
                     </div>
                   </div>
 
-                  <div className="bg-gradient-to-br from-[#011627] to-[#0A2A3A] border border-[#00F5FF]/10 rounded-xl p-6">
-                    <h4 className="text-[#FFFFFF] font-semibold mb-4">{t('profile.twoFactor')}</h4>
-                    <div className="flex items-center justify-between p-4 bg-[#0A2A3A] rounded-lg">
+                  <div className="bg-gradient-to-br from-[#011627] to-[#0A2A3A] border border-secondary/10 rounded-xl p-6">
+                    <h4 className="text-base-content font-semibold mb-4">{t('profile.twoFactor')}</h4>
+                    <div className="flex items-center justify-between p-4 bg-base-200 rounded-lg">
                       <div className="flex items-center gap-3">
-                        <Shield className="w-5 h-5 text-[#00F5FF]" />
+                        <Shield className="w-5 h-5 text-secondary" />
                         <div>
-                          <p className="text-[#FFFFFF]">{t('profile.status')}</p>
-                          <p className="text-[#00F5FF] text-sm">{t('profile.notEnabled')}</p>
+                          <p className="text-base-content">{t('profile.status')}</p>
+                          <p className="text-secondary text-sm">{t('profile.notEnabled')}</p>
                         </div>
                       </div>
-                      <button className="px-4 py-2 bg-[#CCFF00]/10 text-[#CCFF00] rounded-lg hover:bg-[#CCFF00]/20 transition-colors">
+                      <button className="px-4 py-2 bg-primary/10 text-primary rounded-lg hover:bg-primary/20 transition-colors">
                         {t('profile.enable')}
                       </button>
                     </div>
@@ -338,44 +338,44 @@ export function Profile({ onLogout }: ProfileProps) {
 
               {/* API Access */}
               {activeTab === 'api' && (
-                <div className="bg-gradient-to-br from-[#011627] to-[#0A2A3A] border border-[#00F5FF]/10 rounded-xl p-6">
-                  <h2 className="text-xl font-bold text-[#FFFFFF] mb-6">{t('profile.api')}</h2>
-                  <div className="p-4 bg-[#CCFF00]/10 border border-[#CCFF00]/30 rounded-lg mb-6">
+                <div className="bg-gradient-to-br from-[#011627] to-[#0A2A3A] border border-secondary/10 rounded-xl p-6">
+                  <h2 className="text-xl font-bold text-base-content mb-6">{t('profile.api')}</h2>
+                  <div className="p-4 bg-primary/10 border border-primary/30 rounded-lg mb-6">
                     <div className="flex items-start gap-3">
-                      <AlertTriangle className="w-5 h-5 text-[#CCFF00] flex-shrink-0 mt-0.5" />
+                      <AlertTriangle className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
                       <div>
-                        <p className="text-[#FFFFFF] font-medium">{t('profile.enterpriseFeat')}</p>
-                        <p className="text-[#00F5FF] text-sm">API access is available on Enterprise plans. Upgrade to unlock programmatic access to our predictions.</p>
+                        <p className="text-base-content font-medium">{t('profile.enterpriseFeat')}</p>
+                        <p className="text-secondary text-sm">API access is available on Enterprise plans. Upgrade to unlock programmatic access to our predictions.</p>
                       </div>
                     </div>
                   </div>
                   <div className="space-y-4">
                     <div>
-                      <label className="block text-[#00F5FF] text-sm mb-2">{t('profile.apiKey')}</label>
+                      <label className="block text-secondary text-sm mb-2">{t('profile.apiKey')}</label>
                       <div className="flex gap-2">
                         <input
                           type="password"
                           value="••••••••••••••••••••••••••"
                           disabled
-                          className="flex-1 px-4 py-3 bg-[#0A2A3A] border border-[#00F5FF]/20 rounded-lg text-[#00F5FF]"
+                          className="flex-1 px-4 py-3 bg-base-200 border border-secondary/20 rounded-lg text-secondary"
                         />
-                        <button disabled className="px-4 py-3 bg-[#00F5FF]/20 text-[#00F5FF]/50 rounded-lg cursor-not-allowed">
+                        <button disabled className="px-4 py-3 bg-secondary/20 text-secondary/50 rounded-lg cursor-not-allowed">
                           {t('profile.copy')}
                         </button>
                       </div>
                     </div>
                     <div>
-                      <label className="block text-[#00F5FF] text-sm mb-2">{t('profile.webhookUrl')}</label>
+                      <label className="block text-secondary text-sm mb-2">{t('profile.webhookUrl')}</label>
                       <input
                         type="url"
                         placeholder="https://your-webhook.com/endpoint"
                         disabled
-                        className="w-full px-4 py-3 bg-[#0A2A3A] border border-[#00F5FF]/20 rounded-lg text-[#00F5FF]/50"
+                        className="w-full px-4 py-3 bg-base-200 border border-secondary/20 rounded-lg text-secondary/50"
                       />
                     </div>
                     <a
                       href="#/pricing"
-                      className="inline-flex items-center gap-2 px-6 py-3 bg-[#CCFF00] text-[#011627] font-bold rounded-lg hover:bg-[#d4b43a] transition-colors"
+                      className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-content font-bold rounded-lg hover:brightness-90 transition-colors"
                     >
                       {t('profile.upgradeEnterprise')}
                       <ChevronRight className="w-4 h-4" />

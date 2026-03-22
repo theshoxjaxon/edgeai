@@ -263,5 +263,28 @@
     "edge": "edge",
     "moreMatches": "more matches",
     "viewAll": "View All"
+  },
+  "footer": {
+    "brandName": "EdgeAI",
+    "brandTagline": "Beat the Bookmakers",
+    "brandDescription": "AI-powered football predictions that give you the edge. Join thousands of successful bettors today.",
+    "quickLinks": "Quick Links",
+    "contactUs": "Contact Us",
+    "getWinningTips": "Get Winning Tips",
+    "subscribeDesc": "Subscribe to receive daily value bet alerts and exclusive offers.",
+    "placeholder": "Enter your email",
+    "subscribe": "Subscribe",
+    "subscribed": "Subscribed!",
+    "copyright": "© 2024 EdgeAI. All rights reserved.",
+    "authorCredit": "© 2025 Shokhjakhon Kholmurodov's Product. All rights reserved.",
+    "responsibleGambling": "Please gamble responsibly. Betting involves risk. Only bet what you can afford to lose. If you need help, visit",
+    "nav_dashboard": "Dashboard",
+    "nav_predictions": "Predictions",
+    "nav_bets": "Bet Tracking",
+    "nav_pricing": "Pricing",
+    "nav_profile": "Profile",
+    "policy_privacy": "Privacy Policy",
+    "policy_terms": "Terms of Service",
+    "policy_responsible": "Responsible Gambling"
   }
 }
