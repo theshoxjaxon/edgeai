@@ -8,8 +8,11 @@ import {
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { useQuery } from '@tanstack/react-query';
 import { api } from '../lib/api';
+import { useUsage } from '../hooks/useUsage';
+import { useTranslation } from 'react-i18next';
 
 interface DashboardProps {
+  userTier: 'free' | 'pro';
   onLogout: () => void;
 }
 
@@ -26,8 +29,10 @@ const itemVariants = {
   visible: { opacity: 1, y: 0 }
 };
 
-export function Dashboard({ onLogout }: DashboardProps) {
+export function Dashboard({ userTier, onLogout }: DashboardProps) {
+  const { t } = useTranslation();
   const [timeRange, setTimeRange] = useState('7d');
+  const { remaining } = useUsage(userTier);
 
   const { data: dashboardData, isLoading } = useQuery({
     queryKey: ['dashboard'],
@@ -83,6 +88,17 @@ export function Dashboard({ onLogout }: DashboardProps) {
     },
   ];
 
+  if (userTier === 'free') {
+    stats.push({
+      icon: Target,
+      label: t('predictions.remaining'),
+      value: remaining.toString(),
+      change: 'Weekly Limit',
+      changeType: 'neutral' as const,
+      color: 'from-[#00F5FF] to-blue-400'
+    });
+  }
+
   const recentBets = allBets.slice(0, 5);
   const upcomingMatches = allMatches.filter(m => m.status === 'upcoming').slice(0, 5);
 
@@ -97,8 +113,8 @@ export function Dashboard({ onLogout }: DashboardProps) {
             className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-8"
           >
             <div>
-              <h1 className="text-3xl font-bold text-[#FFFFFF]">Dashboard</h1>
-              <p className="text-[#00F5FF] mt-1">Welcome back! Here's your betting overview.</p>
+              <h1 className="text-3xl font-bold text-[#FFFFFF]">{t('dashboard.title')}</h1>
+              <p className="text-[#00F5FF] mt-1">{t('dashboard.welcome')}</p>
             </div>
             <div className="flex items-center gap-3">
               <button className="p-2 rounded-lg bg-[#011627] border border-[#00F5FF]/20 text-[#00F5FF] hover:border-[#CCFF00]/40 transition-colors">
@@ -109,14 +125,14 @@ export function Dashboard({ onLogout }: DashboardProps) {
                 onChange={(e) => setTimeRange(e.target.value)}
                 className="px-4 py-2 bg-[#011627] border border-[#00F5FF]/20 rounded-lg text-[#FFFFFF] text-sm focus:outline-none focus:border-[#CCFF00]/50"
               >
-                <option value="24h">Last 24h</option>
-                <option value="7d">Last 7 days</option>
-                <option value="30d">Last 30 days</option>
-                <option value="90d">Last 90 days</option>
+                <option value="24h">{t('dashboard.last24h')}</option>
+                <option value="7d">{t('dashboard.last7d')}</option>
+                <option value="30d">{t('dashboard.last30d')}</option>
+                <option value="90d">{t('dashboard.last90d')}</option>
               </select>
               <button className="flex items-center gap-2 px-4 py-2 bg-[#CCFF00] text-[#011627] font-semibold rounded-lg hover:bg-[#d4b43a] transition-colors">
                 <Download className="w-4 h-4" />
-                Export
+                {t('dashboard.export')}
               </button>
             </div>
           </motion.div>
@@ -162,8 +178,8 @@ export function Dashboard({ onLogout }: DashboardProps) {
             >
               <div className="flex items-center justify-between mb-6">
                 <div>
-                  <h2 className="text-xl font-bold text-[#FFFFFF]">Bankroll Growth</h2>
-                  <p className="text-[#00F5FF] text-sm">Track your betting performance over time</p>
+                  <h2 className="text-xl font-bold text-[#FFFFFF]">{t('dashboard.bankrollGrowth')}</h2>
+                  <p className="text-[#00F5FF] text-sm">{t('dashboard.trackPerformance')}</p>
                 </div>
                 <div className="flex items-center gap-2">
                   <span className="px-3 py-1 bg-green-500/10 text-green-400 text-sm rounded-full">+124%</span>
@@ -221,11 +237,11 @@ export function Dashboard({ onLogout }: DashboardProps) {
               className="space-y-4"
             >
               <div className="bg-gradient-to-br from-[#011627] to-[#0A2A3A] border border-[#00F5FF]/10 rounded-xl p-6">
-                <h3 className="text-lg font-bold text-[#FFFFFF] mb-4">Performance Metrics</h3>
+                <h3 className="text-lg font-bold text-[#FFFFFF] mb-4">{t('dashboard.performanceMetrics')}</h3>
                 <div className="space-y-4">
                   <div>
                     <div className="flex justify-between text-sm mb-2">
-                      <span className="text-[#00F5FF]">ROI</span>
+                      <span className="text-[#00F5FF]">{t('dashboard.roi')}</span>
                       <span className="text-[#CCFF00] font-bold">+24.3%</span>
                     </div>
                     <div className="h-2 bg-[#0A2A3A] rounded-full overflow-hidden">
@@ -234,7 +250,7 @@ export function Dashboard({ onLogout }: DashboardProps) {
                   </div>
                   <div>
                     <div className="flex justify-between text-sm mb-2">
-                      <span className="text-[#00F5FF]">Win Rate</span>
+                      <span className="text-[#00F5FF]">{t('dashboard.winRate')}</span>
                       <span className="text-[#CCFF00] font-bold">73%</span>
                     </div>
                     <div className="h-2 bg-[#0A2A3A] rounded-full overflow-hidden">
@@ -243,7 +259,7 @@ export function Dashboard({ onLogout }: DashboardProps) {
                   </div>
                   <div>
                     <div className="flex justify-between text-sm mb-2">
-                      <span className="text-[#00F5FF]">Average Edge</span>
+                      <span className="text-[#00F5FF]">{t('dashboard.avgEdge')}</span>
                       <span className="text-[#CCFF00] font-bold">8.5%</span>
                     </div>
                     <div className="h-2 bg-[#0A2A3A] rounded-full overflow-hidden">
@@ -254,7 +270,7 @@ export function Dashboard({ onLogout }: DashboardProps) {
               </div>
 
               <div className="bg-gradient-to-br from-[#011627] to-[#0A2A3A] border border-[#00F5FF]/10 rounded-xl p-6">
-                <h3 className="text-lg font-bold text-[#FFFFFF] mb-4">Subscription</h3>
+                <h3 className="text-lg font-bold text-[#FFFFFF] mb-4">{t('dashboard.subscription')}</h3>
                 <div className="flex items-center gap-4">
                   <div className="w-12 h-12 rounded-lg bg-[#CCFF00]/20 flex items-center justify-center">
                     <Trophy className="w-6 h-6 text-[#CCFF00]" />
@@ -268,7 +284,7 @@ export function Dashboard({ onLogout }: DashboardProps) {
                   href="#/profile"
                   className="mt-4 block w-full py-2 text-center border border-[#00F5FF]/20 text-[#00F5FF] rounded-lg hover:border-[#CCFF00] hover:text-[#CCFF00] transition-colors text-sm"
                 >
-                  Manage Subscription
+                  {t('dashboard.manageSub')}
                 </a>
               </div>
             </motion.div>
@@ -285,9 +301,9 @@ export function Dashboard({ onLogout }: DashboardProps) {
             >
               <div className="p-6 border-b border-[#00F5FF]/10">
                 <div className="flex items-center justify-between">
-                  <h2 className="text-xl font-bold text-[#FFFFFF]">Today's Value Bets</h2>
+                  <h2 className="text-xl font-bold text-[#FFFFFF]">{t('dashboard.todaysBets')}</h2>
                   <a href="#/predictions" className="text-[#CCFF00] text-sm hover:underline flex items-center gap-1">
-                    View All <ChevronRight className="w-4 h-4" />
+                    {t('dashboard.viewAll')} <ChevronRight className="w-4 h-4" />
                   </a>
                 </div>
               </div>
@@ -332,9 +348,9 @@ export function Dashboard({ onLogout }: DashboardProps) {
             >
               <div className="p-6 border-b border-[#00F5FF]/10">
                 <div className="flex items-center justify-between">
-                  <h2 className="text-xl font-bold text-[#FFFFFF]">Recent Bets</h2>
+                  <h2 className="text-xl font-bold text-[#FFFFFF]">{t('dashboard.recentBets')}</h2>
                   <a href="#/bets" className="text-[#CCFF00] text-sm hover:underline flex items-center gap-1">
-                    View All <ChevronRight className="w-4 h-4" />
+                    {t('dashboard.viewAll')} <ChevronRight className="w-4 h-4" />
                   </a>
                 </div>
               </div>
@@ -360,7 +376,7 @@ export function Dashboard({ onLogout }: DashboardProps) {
                       }`}>
                         {bet.result === 'win' ? `+$${bet.profit}` :
                          bet.result === 'loss' ? `-$${bet.stake}` :
-                         'Pending'}
+                         t('dashboard.pending')}
                       </span>
                     </div>
                   </div>

@@ -8,12 +8,14 @@ import {
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 import { useQuery } from '@tanstack/react-query';
 import { api } from '../lib/api';
+import { useTranslation } from 'react-i18next';
 
 interface BetTrackingProps {
   onLogout: () => void;
 }
 
 export function BetTracking({ onLogout }: BetTrackingProps) {
+  const { t } = useTranslation();
   const [filter, setFilter] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [showAddModal, setShowAddModal] = useState(false);
@@ -57,10 +59,10 @@ export function BetTracking({ onLogout }: BetTrackingProps) {
   ];
 
   const statsCards = [
-    { label: 'Total Bets', value: mockStats.totalBets, icon: Target, color: 'from-[#CCFF00] to-[#d4b43a]' },
-    { label: 'Win Rate', value: `${mockStats.winRate}%`, icon: TrendingUp, color: 'from-green-500 to-green-400' },
-    { label: 'ROI', value: `+${mockStats.roi}%`, icon: BarChart3, color: 'from-blue-500 to-blue-400' },
-    { label: 'Total Profit', value: `$${mockStats.totalProfit}`, icon: DollarSign, color: 'from-purple-500 to-purple-400' },
+    { label: t('betTracking.totalBets'), value: mockStats.totalBets, icon: Target, color: 'from-[#CCFF00] to-[#d4b43a]' },
+    { label: t('betTracking.winRate'), value: `${mockStats.winRate}%`, icon: TrendingUp, color: 'from-green-500 to-green-400' },
+    { label: t('betTracking.roi'), value: `+${mockStats.roi}%`, icon: BarChart3, color: 'from-blue-500 to-blue-400' },
+    { label: t('betTracking.totalProfit'), value: `$${mockStats.totalProfit}`, icon: DollarSign, color: 'from-purple-500 to-purple-400' },
   ];
 
   return (
@@ -74,8 +76,8 @@ export function BetTracking({ onLogout }: BetTrackingProps) {
             className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-8"
           >
             <div>
-              <h1 className="text-3xl font-bold text-[#FFFFFF]">Bet Tracking</h1>
-              <p className="text-[#00F5FF] mt-1">Monitor your betting performance</p>
+              <h1 className="text-3xl font-bold text-[#FFFFFF]">{t('betTracking.title')}</h1>
+              <p className="text-[#00F5FF] mt-1">{t('betTracking.desc')}</p>
             </div>
             <div className="flex items-center gap-3">
               <button 
@@ -83,11 +85,11 @@ export function BetTracking({ onLogout }: BetTrackingProps) {
                 className="flex items-center gap-2 px-4 py-2 bg-[#CCFF00] text-[#011627] font-semibold rounded-lg hover:bg-[#d4b43a] transition-colors"
               >
                 <Plus className="w-4 h-4" />
-                Add Bet
+                {t('betTracking.addBet')}
               </button>
               <button className="flex items-center gap-2 px-4 py-2 bg-[#011627] border border-[#00F5FF]/20 text-[#00F5FF] rounded-lg hover:border-[#CCFF00]/40 transition-colors">
                 <Download className="w-4 h-4" />
-                Export
+                {t('betTracking.export')}
               </button>
             </div>
           </motion.div>
@@ -122,7 +124,7 @@ export function BetTracking({ onLogout }: BetTrackingProps) {
           >
             {/* Profit Chart */}
             <div className="bg-gradient-to-br from-[#011627] to-[#0A2A3A] border border-[#00F5FF]/10 rounded-xl p-6">
-              <h3 className="text-lg font-bold text-[#FFFFFF] mb-6">Profit Over Time</h3>
+              <h3 className="text-lg font-bold text-[#FFFFFF] mb-6">{t('betTracking.profitOverTime')}</h3>
               <div className="h-64">
                 <ResponsiveContainer width="100%" height="100%">
                   <LineChart data={profitData}>
@@ -163,7 +165,7 @@ export function BetTracking({ onLogout }: BetTrackingProps) {
 
             {/* Win/Loss Distribution */}
             <div className="bg-gradient-to-br from-[#011627] to-[#0A2A3A] border border-[#00F5FF]/10 rounded-xl p-6">
-              <h3 className="text-lg font-bold text-[#FFFFFF] mb-6">Win/Loss Distribution</h3>
+              <h3 className="text-lg font-bold text-[#FFFFFF] mb-6">{t('betTracking.winLossDist')}</h3>
               <div className="h-64">
                 <ResponsiveContainer width="100%" height="100%">
                   <PieChart>
@@ -193,11 +195,11 @@ export function BetTracking({ onLogout }: BetTrackingProps) {
               <div className="flex justify-center gap-6 mt-4">
                 <div className="flex items-center gap-2">
                   <div className="w-3 h-3 rounded-full bg-green-500" />
-                  <span className="text-[#00F5FF] text-sm">Wins ({mockStats.wins})</span>
+                  <span className="text-[#00F5FF] text-sm">{t('betTracking.wins')} ({mockStats.wins})</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <div className="w-3 h-3 rounded-full bg-red-500" />
-                  <span className="text-[#00F5FF] text-sm">Losses ({mockStats.losses})</span>
+                  <span className="text-[#00F5FF] text-sm">{t('betTracking.losses')} ({mockStats.losses})</span>
                 </div>
               </div>
             </div>
@@ -218,7 +220,7 @@ export function BetTracking({ onLogout }: BetTrackingProps) {
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Search bets..."
+                  placeholder={t('betTracking.searchPlaceholder')}
                   className="w-full pl-10 pr-4 py-2 bg-[#0A2A3A] border border-[#00F5FF]/20 rounded-lg text-[#FFFFFF] placeholder-[#00F5FF]/50 focus:outline-none focus:border-[#CCFF00]/50 text-sm"
                 />
               </div>
@@ -227,10 +229,10 @@ export function BetTracking({ onLogout }: BetTrackingProps) {
                 onChange={(e) => setFilter(e.target.value)}
                 className="px-4 py-2 bg-[#0A2A3A] border border-[#00F5FF]/20 rounded-lg text-[#FFFFFF] text-sm focus:outline-none focus:border-[#CCFF00]/50"
               >
-                <option value="all">All Bets</option>
-                <option value="win">Wins</option>
-                <option value="loss">Losses</option>
-                <option value="pending">Pending</option>
+                <option value="all">{t('betTracking.allBets')}</option>
+                <option value="win">{t('betTracking.wins')}</option>
+                <option value="loss">{t('betTracking.losses')}</option>
+                <option value="pending">{t('betTracking.pending')}</option>
               </select>
             </div>
 
@@ -239,12 +241,12 @@ export function BetTracking({ onLogout }: BetTrackingProps) {
               <table className="w-full">
                 <thead>
                   <tr className="text-[#00F5FF] text-sm border-b border-[#00F5FF]/10">
-                    <th className="text-left py-4 px-4">Match</th>
-                    <th className="text-left py-4 px-4">Selection</th>
-                    <th className="text-center py-4 px-4">Odds</th>
-                    <th className="text-center py-4 px-4">Stake</th>
-                    <th className="text-center py-4 px-4">Result</th>
-                    <th className="text-right py-4 px-4">P/L</th>
+                    <th className="text-left py-4 px-4">{t('betTracking.match')}</th>
+                    <th className="text-left py-4 px-4">{t('betTracking.selection')}</th>
+                    <th className="text-center py-4 px-4">{t('betTracking.odds')}</th>
+                    <th className="text-center py-4 px-4">{t('betTracking.stake')}</th>
+                    <th className="text-center py-4 px-4">{t('betTracking.result')}</th>
+                    <th className="text-right py-4 px-4">{t('betTracking.pl')}</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-[#00F5FF]/10">
@@ -296,8 +298,8 @@ export function BetTracking({ onLogout }: BetTrackingProps) {
                 <div className="w-16 h-16 rounded-full bg-[#00F5FF]/10 flex items-center justify-center mx-auto mb-4">
                   <Search className="w-8 h-8 text-[#00F5FF]" />
                 </div>
-                <h3 className="text-[#FFFFFF] font-semibold mb-2">No bets found</h3>
-                <p className="text-[#00F5FF]">Try adjusting your filters</p>
+                <h3 className="text-[#FFFFFF] font-semibold mb-2">{t('betTracking.noBetsFound')}</h3>
+                <p className="text-[#00F5FF]">{t('betTracking.adjustFilters')}</p>
               </div>
             )}
           </motion.div>
@@ -313,7 +315,7 @@ export function BetTracking({ onLogout }: BetTrackingProps) {
             className="w-full max-w-md bg-gradient-to-br from-[#011627] to-[#011627] border border-[#00F5FF]/20 rounded-2xl p-6"
           >
             <div className="flex items-center justify-between mb-6">
-              <h3 className="text-xl font-bold text-[#FFFFFF]">Add New Bet</h3>
+              <h3 className="text-xl font-bold text-[#FFFFFF]">{t('betTracking.addNewBet')}</h3>
               <button 
                 onClick={() => setShowAddModal(false)}
                 className="w-8 h-8 rounded-full bg-[#00F5FF]/10 flex items-center justify-center text-[#00F5FF] hover:bg-[#00F5FF]/20 transition-colors"

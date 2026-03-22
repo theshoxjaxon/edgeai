@@ -2,6 +2,9 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, User, LogOut, ChevronDown } from 'lucide-react';
 import { Logo } from './Logo';
+import { LanguageSwitcher } from './LanguageSwitcher';
+import { ThemeSwitcher } from './ThemeSwitcher';
+import { useTranslation } from 'react-i18next';
 
 interface NavigationProps {
   isAuthenticated: boolean;
@@ -12,6 +15,7 @@ interface NavigationProps {
 }
 
 export function Navigation({ isAuthenticated, userRole = 'user', userTier = 'free', onLogout, onLoginClick }: NavigationProps) {
+  const { t } = useTranslation();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
@@ -26,17 +30,17 @@ export function Navigation({ isAuthenticated, userRole = 'user', userTier = 'fre
 
   const navLinks = isAuthenticated
     ? [
-        { label: 'Dashboard', href: '#/dashboard' },
-        { label: 'Predictions', href: '#/predictions' },
-        { label: 'My Bets', href: '#/bets' },
-        { label: 'Profile', href: '#/profile' },
-        ...(userRole === 'admin' ? [{ label: 'Admin', href: '#/admin' }] : []),
+        { label: t('nav.dashboard'), href: '#/dashboard' },
+        { label: t('nav.predictions'), href: '#/predictions' },
+        { label: t('nav.myBets'), href: '#/bets' },
+        { label: t('nav.profile'), href: '#/profile' },
+        ...(userRole === 'admin' ? [{ label: t('nav.admin'), href: '#/admin' }] : []),
       ]
     : [
-        { label: 'Home', href: '#/' },
-        { label: 'Features', href: '#/' },
-        { label: 'Pricing', href: '#/pricing' },
-        { label: 'Predictions', href: '#/predictions', protected: true },
+        { label: t('nav.home'), href: '#/' },
+        { label: t('nav.features'), href: '#/' },
+        { label: t('nav.pricing'), href: '#/pricing' },
+        { label: t('nav.predictions'), href: '#/predictions', protected: true },
       ];
 
   return (
@@ -79,6 +83,8 @@ export function Navigation({ isAuthenticated, userRole = 'user', userTier = 'fre
 
             {/* Right Side */}
             <div className="flex items-center gap-4">
+              <ThemeSwitcher />
+              {isAuthenticated && <LanguageSwitcher />}
               {isAuthenticated ? (
                 <div className="relative">
                   <div className="flex items-center gap-3">

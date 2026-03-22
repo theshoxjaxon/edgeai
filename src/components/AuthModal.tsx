@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Mail, Lock, User, Eye, EyeOff } from 'lucide-react';
 import { Logo } from './Logo';
+import { useTranslation } from 'react-i18next';
 
 interface AuthModalProps {
   mode: 'login' | 'signup';
@@ -11,6 +12,7 @@ interface AuthModalProps {
 }
 
 export function AuthModal({ mode, onClose, onLogin, onSwitchMode }: AuthModalProps) {
+  const { t } = useTranslation();
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
@@ -71,12 +73,12 @@ export function AuthModal({ mode, onClose, onLogin, onSwitchMode }: AuthModalPro
               <Logo />
             </div>
             <h2 className="text-2xl font-bold text-[#FFFFFF] mb-2">
-              {mode === 'login' ? 'Welcome Back' : 'Create Account'}
+              {mode === 'login' ? t('auth.welcomeBack') : t('auth.createAccount')}
             </h2>
             <p className="text-[#00F5FF] text-sm">
               {mode === 'login'
-                ? 'Sign in to access your predictions'
-                : 'Start your winning journey today'}
+                ? t('auth.signInDesc')
+                : t('auth.signUpDesc')}
             </p>
           </div>
 
@@ -84,7 +86,7 @@ export function AuthModal({ mode, onClose, onLogin, onSwitchMode }: AuthModalPro
           <form onSubmit={handleSubmit} className="space-y-4">
             {mode === 'signup' && (
               <div>
-                <label className="block text-[#00F5FF] text-sm mb-2">Full Name</label>
+                <label className="block text-[#00F5FF] text-sm mb-2">{t('auth.fullName')}</label>
                 <div className="relative">
                   <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#00F5FF]" />
                   <input
@@ -100,7 +102,7 @@ export function AuthModal({ mode, onClose, onLogin, onSwitchMode }: AuthModalPro
             )}
 
             <div>
-              <label className="block text-[#00F5FF] text-sm mb-2">Email</label>
+              <label className="block text-[#00F5FF] text-sm mb-2">{t('auth.email')}</label>
               <div className="relative">
                 <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#00F5FF]" />
                 <input
@@ -115,7 +117,7 @@ export function AuthModal({ mode, onClose, onLogin, onSwitchMode }: AuthModalPro
             </div>
 
             <div>
-              <label className="block text-[#00F5FF] text-sm mb-2">Password</label>
+              <label className="block text-[#00F5FF] text-sm mb-2">{t('auth.password')}</label>
               <div className="relative">
                 <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#00F5FF]" />
                 <input
@@ -140,10 +142,10 @@ export function AuthModal({ mode, onClose, onLogin, onSwitchMode }: AuthModalPro
               <div className="flex items-center justify-between">
                 <label className="flex items-center gap-2 cursor-pointer">
                   <input type="checkbox" className="w-4 h-4 rounded border-[#00F5FF]/20 bg-[#0A2A3A] text-[#CCFF00] focus:ring-[#CCFF00]" />
-                  <span className="text-[#00F5FF] text-sm">Remember me</span>
+                  <span className="text-[#00F5FF] text-sm">{t('auth.rememberMe')}</span>
                 </label>
                 <a href="#" className="text-[#CCFF00] text-sm hover:underline">
-                  Forgot password?
+                  {t('auth.forgotPassword')}
                 </a>
               </div>
             )}
@@ -156,7 +158,7 @@ export function AuthModal({ mode, onClose, onLogin, onSwitchMode }: AuthModalPro
               {isLoading ? (
                 <div className="w-5 h-5 border-2 border-[#011627] border-t-transparent rounded-full animate-spin" />
               ) : (
-                mode === 'login' ? 'Sign In' : 'Create Account'
+                mode === 'login' ? t('auth.signIn') : t('auth.signUpBtn')
               )}
             </button>
           </form>
@@ -164,7 +166,7 @@ export function AuthModal({ mode, onClose, onLogin, onSwitchMode }: AuthModalPro
           {/* Divider */}
           <div className="flex items-center gap-4 my-6">
             <div className="flex-1 h-px bg-[#00F5FF]/20" />
-            <span className="text-[#00F5FF] text-sm">or</span>
+            <span className="text-[#00F5FF] text-sm">{t('auth.or')}</span>
             <div className="flex-1 h-px bg-[#00F5FF]/20" />
           </div>
 
@@ -189,12 +191,12 @@ export function AuthModal({ mode, onClose, onLogin, onSwitchMode }: AuthModalPro
 
           {/* Switch Mode */}
           <p className="text-center mt-6 text-[#00F5FF] text-sm">
-            {mode === 'login' ? "Don't have an account?" : "Already have an account?"}{' '}
+            {mode === 'login' ? t('auth.noAccount') : t('auth.hasAccount')}{' '}
             <button
               onClick={onSwitchMode}
               className="text-[#CCFF00] font-semibold hover:underline"
             >
-              {mode === 'login' ? 'Sign up' : 'Sign in'}
+              {mode === 'login' ? t('auth.signUpBtn') : t('auth.signIn')}
             </button>
           </p>
         </motion.div>

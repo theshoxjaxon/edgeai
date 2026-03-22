@@ -13,6 +13,7 @@ import { MatchDetail } from './pages/MatchDetail';
 import { BetTracking } from './pages/BetTracking';
 import { Profile } from './pages/Profile';
 import { Admin } from './pages/Admin';
+import { Pricing } from './pages/Pricing';
 import { AuthModal } from './components/AuthModal';
 import { siteConfig } from './config';
 
@@ -103,23 +104,23 @@ function App() {
       case hash === '#/':
         return <LandingPage />;
       case hash === '#/dashboard':
-        return <Dashboard onLogout={handleLogout} />;
+        return <Dashboard userTier={userTier} onLogout={handleLogout} />;
       case hash === '#/predictions':
-        return <Predictions onLogout={handleLogout} />;
+        return <Predictions userTier={userTier} onLogout={handleLogout} />;
       case hash.startsWith('#/match/'):
         const matchId = hash.replace('#/match/', '');
-        return <MatchDetail matchId={matchId} onLogout={handleLogout} />;
+        return <MatchDetail matchId={matchId} userTier={userTier} onLogout={handleLogout} />;
       case hash === '#/bets':
         return <BetTracking onLogout={handleLogout} />;
       case hash === '#/profile':
         return <Profile onLogout={handleLogout} />;
       case hash === '#/admin':
         if (userRole !== 'admin') {
-          return <Dashboard onLogout={handleLogout} />;
+          return <Dashboard userTier={userTier} onLogout={handleLogout} />;
         }
         return <Admin onLogout={handleLogout} />;
       case hash === '#/pricing':
-        return <LandingPage />; // Scroll to pricing section
+        return <Pricing />;
       default:
         return <LandingPage />;
     }

@@ -80,5 +80,25 @@ module.exports = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [require("tailwindcss-animate"), require("daisyui")],
+  daisyui: {
+    themes: [
+      {
+        edgeai: {
+          "primary": "#CCFF00",
+          "secondary": "#00F5FF",
+          "accent": "#CCFF00",
+          "neutral": "#0A2A3A",
+          "base-100": "#011627",
+          "info": "#00F5FF",
+          "success": "#CCFF00",
+          "warning": "#fbbd23",
+          "error": "#f87272",
+        },
+      },
+      "dark",
+      "forest",
+      "cyberpunk"
+    ],
+  },
 }

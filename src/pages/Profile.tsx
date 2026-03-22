@@ -7,12 +7,14 @@ import {
 } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
 import { api } from '../lib/api';
+import { useTranslation } from 'react-i18next';
 
 interface ProfileProps {
   onLogout: () => void;
 }
 
 export function Profile({ onLogout }: ProfileProps) {
+  const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState('general');
   const [notifications, setNotifications] = useState({
     email: true,
@@ -33,11 +35,11 @@ export function Profile({ onLogout }: ProfileProps) {
   }
 
   const tabs = [
-    { id: 'general', label: 'General', icon: User },
-    { id: 'subscription', label: 'Subscription', icon: CreditCard },
-    { id: 'notifications', label: 'Notifications', icon: Bell },
-    { id: 'security', label: 'Security', icon: Shield },
-    { id: 'api', label: 'API Access', icon: Key },
+    { id: 'general', label: t('profile.general'), icon: User },
+    { id: 'subscription', label: t('profile.subscription'), icon: CreditCard },
+    { id: 'notifications', label: t('profile.notifications'), icon: Bell },
+    { id: 'security', label: t('profile.security'), icon: Shield },
+    { id: 'api', label: t('profile.api'), icon: Key },
   ];
 
   return (
@@ -50,8 +52,8 @@ export function Profile({ onLogout }: ProfileProps) {
             animate={{ opacity: 1, y: 0 }}
             className="mb-8"
           >
-            <h1 className="text-3xl font-bold text-[#FFFFFF]">Profile Settings</h1>
-            <p className="text-[#00F5FF] mt-1">Manage your account and preferences</p>
+            <h1 className="text-3xl font-bold text-[#FFFFFF]">{t('profile.title')}</h1>
+            <p className="text-[#00F5FF] mt-1">{t('profile.desc')}</p>
           </motion.div>
 
           <div className="grid lg:grid-cols-4 gap-8">
@@ -103,7 +105,7 @@ export function Profile({ onLogout }: ProfileProps) {
                   className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-red-400 hover:bg-red-500/10 transition-all"
                 >
                   <LogOut className="w-5 h-5" />
-                  Logout
+                  {t('profile.logout')}
                 </button>
               </div>
             </motion.div>
@@ -118,11 +120,11 @@ export function Profile({ onLogout }: ProfileProps) {
               {/* General Settings */}
               {activeTab === 'general' && (
                 <div className="bg-gradient-to-br from-[#011627] to-[#0A2A3A] border border-[#00F5FF]/10 rounded-xl p-6">
-                  <h2 className="text-xl font-bold text-[#FFFFFF] mb-6">General Settings</h2>
+                  <h2 className="text-xl font-bold text-[#FFFFFF] mb-6">{t('profile.generalSettings')}</h2>
                   <div className="space-y-6">
                     <div className="grid md:grid-cols-2 gap-6">
                       <div>
-                        <label className="block text-[#00F5FF] text-sm mb-2">Full Name</label>
+                        <label className="block text-[#00F5FF] text-sm mb-2">{t('profile.fullName')}</label>
                         <input
                           type="text"
                           defaultValue="John Doe"
@@ -130,7 +132,7 @@ export function Profile({ onLogout }: ProfileProps) {
                         />
                       </div>
                       <div>
-                        <label className="block text-[#00F5FF] text-sm mb-2">Email</label>
+                        <label className="block text-[#00F5FF] text-sm mb-2">{t('profile.email')}</label>
                         <input
                           type="email"
                           defaultValue="john@example.com"
@@ -139,7 +141,7 @@ export function Profile({ onLogout }: ProfileProps) {
                       </div>
                     </div>
                     <div>
-                      <label className="block text-[#00F5FF] text-sm mb-2">Phone</label>
+                      <label className="block text-[#00F5FF] text-sm mb-2">{t('profile.phone')}</label>
                       <input
                         type="tel"
                         placeholder="+1 (555) 000-0000"
@@ -147,7 +149,7 @@ export function Profile({ onLogout }: ProfileProps) {
                       />
                     </div>
                     <div>
-                      <label className="block text-[#00F5FF] text-sm mb-2">Timezone</label>
+                      <label className="block text-[#00F5FF] text-sm mb-2">{t('profile.timezone')}</label>
                       <select className="w-full px-4 py-3 bg-[#0A2A3A] border border-[#00F5FF]/20 rounded-lg text-[#FFFFFF] focus:outline-none focus:border-[#CCFF00]/50">
                         <option>UTC-05:00 Eastern Time</option>
                         <option>UTC-08:00 Pacific Time</option>
@@ -157,7 +159,7 @@ export function Profile({ onLogout }: ProfileProps) {
                     </div>
                     <div className="pt-4 border-t border-[#00F5FF]/10">
                       <button className="px-6 py-3 bg-[#CCFF00] text-[#011627] font-bold rounded-lg hover:bg-[#d4b43a] transition-colors">
-                        Save Changes
+                        {t('profile.saveChanges')}
                       </button>
                     </div>
                   </div>
@@ -180,7 +182,7 @@ export function Profile({ onLogout }: ProfileProps) {
                       <span className="px-3 py-1 bg-green-500/10 text-green-400 text-sm rounded-full">Active</span>
                     </div>
                     <div className="mt-6 pt-6 border-t border-[#00F5FF]/10">
-                      <h4 className="text-[#FFFFFF] font-semibold mb-4">Plan Features</h4>
+                      <h4 className="text-[#FFFFFF] font-semibold mb-4">{t('profile.planFeatures')}</h4>
                       <ul className="space-y-2">
                         {[
                           'Unlimited predictions',
@@ -200,7 +202,7 @@ export function Profile({ onLogout }: ProfileProps) {
                   </div>
 
                   <div className="bg-gradient-to-br from-[#011627] to-[#0A2A3A] border border-[#00F5FF]/10 rounded-xl p-6">
-                    <h4 className="text-[#FFFFFF] font-semibold mb-4">Payment Method</h4>
+                    <h4 className="text-[#FFFFFF] font-semibold mb-4">{t('profile.paymentMethod')}</h4>
                     <div className="flex items-center gap-4 p-4 bg-[#0A2A3A] rounded-lg">
                       <div className="w-12 h-8 bg-gradient-to-r from-[#1a1f71] to-[#0d1b5e] rounded flex items-center justify-center">
                         <span className="text-white text-xs font-bold">VISA</span>
@@ -210,7 +212,7 @@ export function Profile({ onLogout }: ProfileProps) {
                         <p className="text-[#00F5FF] text-sm">Expires 12/25</p>
                       </div>
                       <button className="ml-auto text-[#CCFF00] text-sm hover:underline">
-                        Change
+                        {t('profile.change')}
                       </button>
                     </div>
                   </div>
@@ -220,15 +222,15 @@ export function Profile({ onLogout }: ProfileProps) {
               {/* Notifications */}
               {activeTab === 'notifications' && (
                 <div className="bg-gradient-to-br from-[#011627] to-[#0A2A3A] border border-[#00F5FF]/10 rounded-xl p-6">
-                  <h2 className="text-xl font-bold text-[#FFFFFF] mb-6">Notification Preferences</h2>
+                  <h2 className="text-xl font-bold text-[#FFFFFF] mb-6">{t('profile.notificationPrefs')}</h2>
                   <div className="space-y-6">
                     <div>
-                      <h4 className="text-[#FFFFFF] font-semibold mb-4">Channels</h4>
+                      <h4 className="text-[#FFFFFF] font-semibold mb-4">{t('profile.channels')}</h4>
                       <div className="space-y-4">
                         {[
-                          { key: 'email', label: 'Email Notifications', icon: Mail },
-                          { key: 'sms', label: 'SMS Notifications', icon: Smartphone },
-                          { key: 'push', label: 'Push Notifications', icon: Bell },
+                          { key: 'email', label: t('profile.emailNotif'), icon: Mail },
+                          { key: 'sms', label: t('profile.smsNotif'), icon: Smartphone },
+                          { key: 'push', label: t('profile.pushNotif'), icon: Bell },
                         ].map(({ key, label, icon: Icon }) => (
                           <div key={key} className="flex items-center justify-between p-4 bg-[#0A2A3A] rounded-lg">
                             <div className="flex items-center gap-3">
@@ -250,12 +252,12 @@ export function Profile({ onLogout }: ProfileProps) {
                       </div>
                     </div>
                     <div className="pt-6 border-t border-[#00F5FF]/10">
-                      <h4 className="text-[#FFFFFF] font-semibold mb-4">Alerts</h4>
+                      <h4 className="text-[#FFFFFF] font-semibold mb-4">{t('profile.alerts')}</h4>
                       <div className="space-y-4">
                         {[
-                          { key: 'valueBets', label: 'Value Bet Alerts', desc: 'Get notified when high-edge bets are detected' },
-                          { key: 'results', label: 'Match Results', desc: 'Receive updates on your tracked bets' },
-                          { key: 'newsletter', label: 'Weekly Newsletter', desc: 'Tips and insights every week' },
+                          { key: 'valueBets', label: t('profile.valueBetAlerts'), desc: t('profile.valueBetDesc') },
+                          { key: 'results', label: t('profile.matchResults'), desc: t('profile.resultsDesc') },
+                          { key: 'newsletter', label: t('profile.newsletter'), desc: t('profile.newsletterDesc') },
                         ].map(({ key, label, desc }) => (
                           <div key={key} className="flex items-center justify-between p-4 bg-[#0A2A3A] rounded-lg">
                             <div>
@@ -284,10 +286,10 @@ export function Profile({ onLogout }: ProfileProps) {
               {activeTab === 'security' && (
                 <div className="space-y-6">
                   <div className="bg-gradient-to-br from-[#011627] to-[#0A2A3A] border border-[#00F5FF]/10 rounded-xl p-6">
-                    <h2 className="text-xl font-bold text-[#FFFFFF] mb-6">Security Settings</h2>
+                    <h2 className="text-xl font-bold text-[#FFFFFF] mb-6">{t('profile.security')}</h2>
                     <div className="space-y-6">
                       <div>
-                        <label className="block text-[#00F5FF] text-sm mb-2">Current Password</label>
+                        <label className="block text-[#00F5FF] text-sm mb-2">{t('profile.currentPass')}</label>
                         <input
                           type="password"
                           placeholder="••••••••"
@@ -295,7 +297,7 @@ export function Profile({ onLogout }: ProfileProps) {
                         />
                       </div>
                       <div>
-                        <label className="block text-[#00F5FF] text-sm mb-2">New Password</label>
+                        <label className="block text-[#00F5FF] text-sm mb-2">{t('profile.newPass')}</label>
                         <input
                           type="password"
                           placeholder="••••••••"
@@ -303,7 +305,7 @@ export function Profile({ onLogout }: ProfileProps) {
                         />
                       </div>
                       <div>
-                        <label className="block text-[#00F5FF] text-sm mb-2">Confirm New Password</label>
+                        <label className="block text-[#00F5FF] text-sm mb-2">{t('profile.confirmPass')}</label>
                         <input
                           type="password"
                           placeholder="••••••••"
@@ -311,23 +313,23 @@ export function Profile({ onLogout }: ProfileProps) {
                         />
                       </div>
                       <button className="px-6 py-3 bg-[#CCFF00] text-[#011627] font-bold rounded-lg hover:bg-[#d4b43a] transition-colors">
-                        Update Password
+                        {t('profile.updatePass')}
                       </button>
                     </div>
                   </div>
 
                   <div className="bg-gradient-to-br from-[#011627] to-[#0A2A3A] border border-[#00F5FF]/10 rounded-xl p-6">
-                    <h4 className="text-[#FFFFFF] font-semibold mb-4">Two-Factor Authentication</h4>
+                    <h4 className="text-[#FFFFFF] font-semibold mb-4">{t('profile.twoFactor')}</h4>
                     <div className="flex items-center justify-between p-4 bg-[#0A2A3A] rounded-lg">
                       <div className="flex items-center gap-3">
                         <Shield className="w-5 h-5 text-[#00F5FF]" />
                         <div>
-                          <p className="text-[#FFFFFF]">2FA Status</p>
-                          <p className="text-[#00F5FF] text-sm">Not enabled</p>
+                          <p className="text-[#FFFFFF]">{t('profile.status')}</p>
+                          <p className="text-[#00F5FF] text-sm">{t('profile.notEnabled')}</p>
                         </div>
                       </div>
                       <button className="px-4 py-2 bg-[#CCFF00]/10 text-[#CCFF00] rounded-lg hover:bg-[#CCFF00]/20 transition-colors">
-                        Enable
+                        {t('profile.enable')}
                       </button>
                     </div>
                   </div>
@@ -337,19 +339,19 @@ export function Profile({ onLogout }: ProfileProps) {
               {/* API Access */}
               {activeTab === 'api' && (
                 <div className="bg-gradient-to-br from-[#011627] to-[#0A2A3A] border border-[#00F5FF]/10 rounded-xl p-6">
-                  <h2 className="text-xl font-bold text-[#FFFFFF] mb-6">API Access</h2>
+                  <h2 className="text-xl font-bold text-[#FFFFFF] mb-6">{t('profile.api')}</h2>
                   <div className="p-4 bg-[#CCFF00]/10 border border-[#CCFF00]/30 rounded-lg mb-6">
                     <div className="flex items-start gap-3">
                       <AlertTriangle className="w-5 h-5 text-[#CCFF00] flex-shrink-0 mt-0.5" />
                       <div>
-                        <p className="text-[#FFFFFF] font-medium">Enterprise Feature</p>
+                        <p className="text-[#FFFFFF] font-medium">{t('profile.enterpriseFeat')}</p>
                         <p className="text-[#00F5FF] text-sm">API access is available on Enterprise plans. Upgrade to unlock programmatic access to our predictions.</p>
                       </div>
                     </div>
                   </div>
                   <div className="space-y-4">
                     <div>
-                      <label className="block text-[#00F5FF] text-sm mb-2">API Key</label>
+                      <label className="block text-[#00F5FF] text-sm mb-2">{t('profile.apiKey')}</label>
                       <div className="flex gap-2">
                         <input
                           type="password"
@@ -358,12 +360,12 @@ export function Profile({ onLogout }: ProfileProps) {
                           className="flex-1 px-4 py-3 bg-[#0A2A3A] border border-[#00F5FF]/20 rounded-lg text-[#00F5FF]"
                         />
                         <button disabled className="px-4 py-3 bg-[#00F5FF]/20 text-[#00F5FF]/50 rounded-lg cursor-not-allowed">
-                          Copy
+                          {t('profile.copy')}
                         </button>
                       </div>
                     </div>
                     <div>
-                      <label className="block text-[#00F5FF] text-sm mb-2">Webhook URL</label>
+                      <label className="block text-[#00F5FF] text-sm mb-2">{t('profile.webhookUrl')}</label>
                       <input
                         type="url"
                         placeholder="https://your-webhook.com/endpoint"
@@ -375,7 +377,7 @@ export function Profile({ onLogout }: ProfileProps) {
                       href="#/pricing"
                       className="inline-flex items-center gap-2 px-6 py-3 bg-[#CCFF00] text-[#011627] font-bold rounded-lg hover:bg-[#d4b43a] transition-colors"
                     >
-                      Upgrade to Enterprise
+                      {t('profile.upgradeEnterprise')}
                       <ChevronRight className="w-4 h-4" />
                     </a>
                   </div>

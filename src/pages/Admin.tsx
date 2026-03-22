@@ -4,19 +4,21 @@ import {
   Database, Users, Activity, Settings, 
   RefreshCw, CheckCircle2, AlertCircle, TrendingUp
 } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 interface AdminProps {
   onLogout: () => void;
 }
 
 export function Admin({ onLogout }: AdminProps) {
+  const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState('overview');
 
   const systemStats = [
-    { label: 'Active Users', value: '12,450', change: '+12%', icon: Users, color: 'text-blue-400' },
-    { label: 'System Uptime', value: '99.9%', change: '+0.1%', icon: Activity, color: 'text-green-400' },
-    { label: 'Data Sources (APIs)', value: '8/8', change: 'All healthy', icon: Database, color: 'text-[#CCFF00]' },
-    { label: 'Predictions Generated (24h)', value: '14,204', change: '+5%', icon: TrendingUp, color: 'text-purple-400' },
+    { label: t('admin.activeUsers'), value: '12,450', change: '+12%', icon: Users, color: 'text-blue-400' },
+    { label: t('admin.uptime'), value: '99.9%', change: '+0.1%', icon: Activity, color: 'text-green-400' },
+    { label: t('admin.dataSources'), value: '8/8', change: t('admin.allHealthy'), icon: Database, color: 'text-[#CCFF00]' },
+    { label: t('admin.predictionsGen'), value: '14,204', change: '+5%', icon: TrendingUp, color: 'text-purple-400' },
   ];
 
   const recentLogs = [
@@ -28,9 +30,9 @@ export function Admin({ onLogout }: AdminProps) {
   ];
 
   const tabs = [
-    { id: 'overview', label: 'System Overview' },
-    { id: 'leagues', label: 'Manage Leagues & Teams' },
-    { id: 'sources', label: 'Data Sources' },
+    { id: 'overview', label: t('admin.sysOverview') },
+    { id: 'leagues', label: t('admin.manageLeagues') },
+    { id: 'sources', label: t('admin.dataSources') },
   ];
 
   return (
@@ -44,8 +46,8 @@ export function Admin({ onLogout }: AdminProps) {
             className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-8"
           >
             <div>
-              <h1 className="text-3xl font-bold text-[#FFFFFF]">Admin Dashboard</h1>
-              <p className="text-[#00F5FF] mt-1">System control and monitoring panel</p>
+              <h1 className="text-3xl font-bold text-[#FFFFFF]">{t('admin.title')}</h1>
+              <p className="text-[#00F5FF] mt-1">{t('admin.desc')}</p>
             </div>
           </motion.div>
 
@@ -97,9 +99,9 @@ export function Admin({ onLogout }: AdminProps) {
                     className="bg-gradient-to-br from-[#011627] to-[#0A2A3A] border border-[#00F5FF]/10 rounded-xl p-6"
                   >
                     <div className="flex items-center justify-between mb-6">
-                      <h2 className="text-xl font-bold text-[#FFFFFF]">System Settings</h2>
+                      <h2 className="text-xl font-bold text-[#FFFFFF]">{t('admin.sysSettings')}</h2>
                       <button className="flex items-center gap-2 px-4 py-2 bg-[#00F5FF]/10 text-[#00F5FF] rounded-lg hover:bg-[#00F5FF]/20">
-                        <Settings className="w-4 h-4" /> Edit Configuration
+                        <Settings className="w-4 h-4" /> {t('admin.editConfig')}
                       </button>
                     </div>
                     <div className="space-y-4">
@@ -123,7 +125,7 @@ export function Admin({ onLogout }: AdminProps) {
 
                 <div className="lg:col-span-1 border border-[#00F5FF]/10 bg-gradient-to-br from-[#011627] to-[#0A2A3A] rounded-xl p-6">
                   <div className="flex items-center justify-between mb-6">
-                    <h2 className="text-xl font-bold text-[#FFFFFF]">System Logs</h2>
+                    <h2 className="text-xl font-bold text-[#FFFFFF]">{t('admin.sysLogs')}</h2>
                     <button className="text-[#00F5FF] hover:text-[#CCFF00]">
                       <RefreshCw className="w-4 h-4" />
                     </button>
@@ -144,7 +146,7 @@ export function Admin({ onLogout }: AdminProps) {
                     ))}
                   </div>
                   <button className="w-full mt-6 py-2 text-[#CCFF00] text-sm border border-[#CCFF00]/30 rounded-lg hover:bg-[#CCFF00]/10">
-                    View All Logs
+                    {t('admin.viewAllLogs')}
                   </button>
                 </div>
               </>

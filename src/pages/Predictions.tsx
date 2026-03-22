@@ -6,12 +6,15 @@ import {
 } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
 import { api } from '../lib/api';
+import { useTranslation } from 'react-i18next';
 
 interface PredictionsProps {
+  userTier: 'free' | 'pro';
   onLogout: () => void;
 }
 
-export function Predictions({ onLogout }: PredictionsProps) {
+export function Predictions({ userTier }: PredictionsProps) {
+  const { t } = useTranslation();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedLeague, setSelectedLeague] = useState('all');
   const [minEdge, setMinEdge] = useState(0);
@@ -26,10 +29,12 @@ export function Predictions({ onLogout }: PredictionsProps) {
   });
 
   if (isLoading) {
-    return <div className="min-h-screen bg-[#011627] pt-20 flex items-center justify-center text-[#CCFF00]">Loading predictions...</div>;
+    return <div className="min-h-screen bg-[#011627] pt-20 flex items-center justify-center text-[#CCFF00]">{t('predictions.loading')}</div>;
   }
 
   // Filter and sort matches
+  const topLeagues = ['Premier League', 'La Liga', 'Serie A', 'Bundesliga', 'Ligue 1'];
+  
   const filteredMatches = allMatches
     .filter(match => {
       const matchesSearch = 
@@ -38,7 +43,8 @@ export function Predictions({ onLogout }: PredictionsProps) {
         match.league.toLowerCase().includes(searchQuery.toLowerCase());
       const matchesLeague = selectedLeague === 'all' || match.league === selectedLeague;
       const matchesEdge = match.edge >= minEdge;
-      return matchesSearch && matchesLeague && matchesEdge;
+      const matchesTier = userTier === 'pro' || topLeagues.includes(match.league);
+      return matchesSearch && matchesLeague && matchesEdge && matchesTier;
     })
     .sort((a, b) => {
       const aValue = a[sortBy as keyof typeof a] as number;
@@ -87,8 +93,8 @@ export function Predictions({ onLogout }: PredictionsProps) {
             className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-8"
           >
             <div>
-              <h1 className="text-3xl font-bold text-[#FFFFFF]">Predictions</h1>
-              <p className="text-[#00F5FF] mt-1">AI-powered match analysis and value bets</p>
+              <h1 className="text-3xl font-bold text-[#FFFFFF]">{t('predictions.title')}</h1>
+              <p className="text-[#00F5FF] mt-1">{t('predictions.desc')}</p>
             </div>
             <div className="flex items-center gap-3">
               <button 
@@ -96,11 +102,11 @@ export function Predictions({ onLogout }: PredictionsProps) {
                 className="flex items-center gap-2 px-4 py-2 bg-[#011627] border border-[#00F5FF]/20 text-[#00F5FF] rounded-lg hover:border-[#CCFF00]/40 transition-colors"
               >
                 <Download className="w-4 h-4" />
-                Export CSV
+                {t('predictions.exportCSV')}
               </button>
               <button className="flex items-center gap-2 px-4 py-2 bg-[#CCFF00] text-[#011627] font-semibold rounded-lg hover:bg-[#d4b43a] transition-colors">
                 <Bell className="w-4 h-4" />
-                Set Alerts
+                {t('predictions.setAlerts')}
               </button>
             </div>
           </motion.div>
@@ -120,7 +126,7 @@ export function Predictions({ onLogout }: PredictionsProps) {
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Search teams, leagues..."
+                  placeholder={t('predictions.searchPlaceholder')}
                   className="w-full pl-12 pr-4 py-3 bg-[#0A2A3A] border border-[#00F5FF]/20 rounded-lg text-[#FFFFFF] placeholder-[#00F5FF]/50 focus:outline-none focus:border-[#CCFF00]/50"
                 />
               </div>
@@ -134,7 +140,7 @@ export function Predictions({ onLogout }: PredictionsProps) {
                 >
                   {leagues.map(league => (
                     <option key={league} value={league}>
-                      {league === 'all' ? 'All Leagues' : league}
+                      {league === 'all' ? t('predictions.allLeagues') : league}
                     </option>
                   ))}
                 </select>
@@ -148,10 +154,10 @@ export function Predictions({ onLogout }: PredictionsProps) {
                   onChange={(e) => setMinEdge(Number(e.target.value))}
                   className="appearance-none px-4 py-3 pr-10 bg-[#0A2A3A] border border-[#00F5FF]/20 rounded-lg text-[#FFFFFF] focus:outline-none focus:border-[#CCFF00]/50 min-w-[140px]"
                 >
-                  <option value={0}>Min Edge: Any</option>
-                  <option value={5}>Min Edge: 5%+</option>
-                  <option value={8}>Min Edge: 8%+</option>
-                  <option value={10}>Min Edge: 10%+</option>
+                  <option value={0}>{t('predictions.minEdgeAny')}</option>
+                  <option value={5}>{t('predictions.minEdge5')}</option>
+                  <option value={8}>{t('predictions.minEdge8')}</option>
+                  <option value={10}>{t('predictions.minEdge10')}</option>
                 </select>
                 <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#00F5FF] pointer-events-none" />
               </div>
@@ -161,7 +167,7 @@ export function Predictions({ onLogout }: PredictionsProps) {
                 className="flex items-center gap-2 px-4 py-3 border border-[#00F5FF]/20 text-[#00F5FF] rounded-lg hover:border-[#CCFF00]/40 transition-colors"
               >
                 <Filter className="w-4 h-4" />
-                Filters
+                {t('predictions.filters')}
               </button>
             </div>
           </motion.div>
@@ -169,17 +175,17 @@ export function Predictions({ onLogout }: PredictionsProps) {
           {/* Results Count */}
           <div className="flex items-center justify-between mb-4">
             <p className="text-[#00F5FF]">
-              Showing <span className="text-[#FFFFFF] font-semibold">{filteredMatches.length}</span> predictions
+              {t('predictions.showing')} <span className="text-[#FFFFFF] font-semibold">{filteredMatches.length}</span> {t('predictions.predictionsCount')}
             </p>
             <div className="flex items-center gap-2">
-              <span className="text-[#00F5FF] text-sm">Sort by:</span>
+              <span className="text-[#00F5FF] text-sm">{t('predictions.sortBy')}</span>
               <button
                 onClick={() => handleSort('edge')}
                 className={`flex items-center gap-1 px-3 py-1 rounded-lg text-sm transition-colors ${
                   sortBy === 'edge' ? 'bg-[#CCFF00]/20 text-[#CCFF00]' : 'text-[#00F5FF] hover:text-[#FFFFFF]'
                 }`}
               >
-                Edge {sortBy === 'edge' && (sortOrder === 'desc' ? '↓' : '↑')}
+                {t('predictions.edge')} {sortBy === 'edge' && (sortOrder === 'desc' ? '↓' : '↑')}
               </button>
               <button
                 onClick={() => handleSort('confidence')}
@@ -187,7 +193,7 @@ export function Predictions({ onLogout }: PredictionsProps) {
                   sortBy === 'confidence' ? 'bg-[#CCFF00]/20 text-[#CCFF00]' : 'text-[#00F5FF] hover:text-[#FFFFFF]'
                 }`}
               >
-                Confidence {sortBy === 'confidence' && (sortOrder === 'desc' ? '↓' : '↑')}
+                {t('predictions.confidence')} {sortBy === 'confidence' && (sortOrder === 'desc' ? '↓' : '↑')}
               </button>
             </div>
           </div>
@@ -201,12 +207,12 @@ export function Predictions({ onLogout }: PredictionsProps) {
           >
             {/* Table Header */}
             <div className="hidden lg:grid grid-cols-12 gap-4 p-4 border-b border-[#00F5FF]/10 bg-[#0A2A3A]/50 text-[#00F5FF] text-sm font-medium">
-              <div className="col-span-4">Match</div>
-              <div className="col-span-2">Prediction</div>
-              <div className="col-span-2">Probabilities</div>
-              <div className="col-span-1 text-center">Edge</div>
-              <div className="col-span-1 text-center">Kelly</div>
-              <div className="col-span-2 text-right">Action</div>
+              <div className="col-span-4">{t('predictions.match')}</div>
+              <div className="col-span-2">{t('predictions.prediction')}</div>
+              <div className="col-span-2">{t('predictions.probabilities')}</div>
+              <div className="col-span-1 text-center">{t('predictions.edge')}</div>
+              <div className="col-span-1 text-center">{t('predictions.kelly')}</div>
+              <div className="col-span-2 text-right">{t('predictions.action')}</div>
             </div>
 
             {/* Table Body */}
@@ -237,7 +243,7 @@ export function Predictions({ onLogout }: PredictionsProps) {
                       </div>
                       <div>
                         <p className="text-[#FFFFFF] font-medium">
-                          {match.homeTeam} <span className="text-[#00F5FF]">vs</span> {match.awayTeam}
+                          {match.homeTeam} <span className="text-[#00F5FF]">{t('predictions.vs')}</span> {match.awayTeam}
                         </p>
                         <div className="flex items-center gap-2 mt-1">
                           <span className="text-[#00F5FF] text-xs">{match.league}</span>
@@ -286,14 +292,14 @@ export function Predictions({ onLogout }: PredictionsProps) {
                   {/* Kelly Stake */}
                   <div className="lg:col-span-1 text-center mb-4 lg:mb-0">
                     <span className="text-[#FFFFFF] font-bold">{match.kellyStake}%</span>
-                    <p className="text-[#00F5FF] text-xs">of bankroll</p>
+                    <p className="text-[#00F5FF] text-xs">{t('predictions.ofBankroll')}</p>
                   </div>
 
                   {/* Action */}
                   <div className="lg:col-span-2 text-right">
                     <button className="inline-flex items-center gap-2 px-4 py-2 bg-[#CCFF00]/10 border border-[#CCFF00]/30 text-[#CCFF00] rounded-lg hover:bg-[#CCFF00]/20 transition-colors text-sm">
                       <Star className="w-4 h-4" />
-                      Track Bet
+                      {t('predictions.trackBet')}
                     </button>
                   </div>
                 </motion.a>
@@ -305,8 +311,8 @@ export function Predictions({ onLogout }: PredictionsProps) {
                 <div className="w-16 h-16 rounded-full bg-[#00F5FF]/10 flex items-center justify-center mx-auto mb-4">
                   <Search className="w-8 h-8 text-[#00F5FF]" />
                 </div>
-                <h3 className="text-[#FFFFFF] font-semibold mb-2">No predictions found</h3>
-                <p className="text-[#00F5FF]">Try adjusting your filters</p>
+                <h3 className="text-[#FFFFFF] font-semibold mb-2">{t('predictions.noFound')}</h3>
+                <p className="text-[#00F5FF]">{t('predictions.adjustFilters')}</p>
               </div>
             )}
           </motion.div>

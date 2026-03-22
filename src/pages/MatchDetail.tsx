@@ -1,20 +1,26 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { 
   ArrowLeft, Target, Clock,
   BarChart3, History, Brain, Star,
-  Share2, Bell, Check, X
+  Share2, Bell, Check
 } from 'lucide-react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from 'recharts';
 import { useQuery } from '@tanstack/react-query';
 import { api } from '../lib/api';
+import { useUsage } from '../hooks/useUsage';
+import { useTranslation } from 'react-i18next';
 
 interface MatchDetailProps {
   matchId: string;
+  userTier: 'free' | 'pro';
   onLogout: () => void;
 }
 
-export function MatchDetail({ matchId, onLogout }: MatchDetailProps) {
+export function MatchDetail({ matchId, userTier }: MatchDetailProps) {
+  const { t } = useTranslation();
+  const { consumePrediction } = useUsage(userTier);
+  const [canView, setCanView] = useState<boolean | null>(null);
   const [activeTab, setActiveTab] = useState('overview');
   const [isTracking, setIsTracking] = useState(false);
   
@@ -23,8 +29,18 @@ export function MatchDetail({ matchId, onLogout }: MatchDetailProps) {
     queryFn: () => api.getMatchDetail(matchId)
   });
 
+  useEffect(() => {
+    if (matchDetail && canView === null) {
+      if (userTier === 'pro') {
+        setCanView(true);
+      } else {
+        setCanView(consumePrediction());
+      }
+    }
+  }, [matchDetail, userTier, canView, consumePrediction]);
+
   if (isLoading || !matchDetail) {
-    return <div className="min-h-screen bg-[#011627] pt-20 flex items-center justify-center text-[#CCFF00]">Loading match details...</div>;
+    return <div className="min-h-screen bg-[#011627] pt-20 flex items-center justify-center text-[#CCFF00]">{t('matchDetail.loading')}</div>;
   }
 
   const { reasoning, ...match } = matchDetail;
@@ -36,9 +52,9 @@ export function MatchDetail({ matchId, onLogout }: MatchDetailProps) {
   ];
 
   const tabs = [
-    { id: 'overview', label: 'Overview', icon: BarChart3 },
-    { id: 'analysis', label: 'AI Analysis', icon: Brain },
-    { id: 'h2h', label: 'H2H', icon: History },
+    { id: 'overview', label: t('matchDetail.overview'), icon: BarChart3 },
+    { id: 'analysis', label: t('matchDetail.aiAnalysis'), icon: Brain },
+    { id: 'h2h', label: t('matchDetail.h2h'), icon: History },
   ];
 
   return (
@@ -53,7 +69,7 @@ export function MatchDetail({ matchId, onLogout }: MatchDetailProps) {
             className="inline-flex items-center gap-2 text-[#00F5FF] hover:text-[#CCFF00] transition-colors mb-6"
           >
             <ArrowLeft className="w-4 h-4" />
-            Back to Predictions
+            {t('matchDetail.back')}
           </motion.a>
 
           {/* Match Header */}
@@ -94,7 +110,7 @@ export function MatchDetail({ matchId, onLogout }: MatchDetailProps) {
                     <Clock className="w-4 h-4" />
                     <span className="font-semibold">{match.kickoff}</span>
                   </div>
-                  <p className="text-[#00F5FF] text-xs mt-2">Today</p>
+                  <p className="text-[#00F5FF] text-xs mt-2">{t('matchDetail.today')}</p>
                 </div>
 
                 <div className="text-center">
@@ -124,15 +140,15 @@ export function MatchDetail({ matchId, onLogout }: MatchDetailProps) {
               {/* Quick Stats */}
               <div className="flex flex-wrap justify-center lg:justify-end gap-4">
                 <div className="text-center px-4 py-3 bg-[#0A2A3A] rounded-xl">
-                  <p className="text-[#00F5FF] text-xs mb-1">AI Prediction</p>
+                  <p className="text-[#00F5FF] text-xs mb-1">{t('matchDetail.aiPrediction')}</p>
                   <p className="text-[#CCFF00] font-bold">{match.prediction}</p>
                 </div>
                 <div className="text-center px-4 py-3 bg-[#0A2A3A] rounded-xl">
-                  <p className="text-[#00F5FF] text-xs mb-1">Edge</p>
+                  <p className="text-[#00F5FF] text-xs mb-1">{t('matchDetail.edge')}</p>
                   <p className="text-green-400 font-bold">+{match.edge}%</p>
                 </div>
                 <div className="text-center px-4 py-3 bg-[#0A2A3A] rounded-xl">
-                  <p className="text-[#00F5FF] text-xs mb-1">Kelly Stake</p>
+                  <p className="text-[#00F5FF] text-xs mb-1">{t('matchDetail.kellyStake')}</p>
                   <p className="text-[#FFFFFF] font-bold">{match.kellyStake}%</p>
                 </div>
               </div>
@@ -149,36 +165,48 @@ export function MatchDetail({ matchId, onLogout }: MatchDetailProps) {
                 }`}
               >
                 {isTracking ? <Check className="w-4 h-4" /> : <Star className="w-4 h-4" />}
-                {isTracking ? 'Tracking' : 'Track Bet'}
+                {isTracking ? t('matchDetail.tracking') : t('matchDetail.trackBet')}
               </button>
               <button className="flex items-center gap-2 px-6 py-3 bg-[#0A2A3A] border border-[#00F5FF]/20 text-[#00F5FF] rounded-lg hover:border-[#CCFF00]/40 transition-colors">
                 <Bell className="w-4 h-4" />
-                Set Alert
+                {t('matchDetail.setAlert')}
               </button>
               <button className="flex items-center gap-2 px-6 py-3 bg-[#0A2A3A] border border-[#00F5FF]/20 text-[#00F5FF] rounded-lg hover:border-[#CCFF00]/40 transition-colors">
                 <Share2 className="w-4 h-4" />
-                Share
+                {t('matchDetail.share')}
               </button>
             </div>
           </motion.div>
 
           {/* Tabs */}
-          <div className="flex gap-2 mb-6 overflow-x-auto pb-2">
-            {tabs.map((tab) => (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
-                className={`flex items-center gap-2 px-6 py-3 rounded-lg font-medium transition-all whitespace-nowrap ${
-                  activeTab === tab.id
-                    ? 'bg-[#CCFF00] text-[#011627]'
-                    : 'bg-[#011627] text-[#00F5FF] hover:text-[#FFFFFF] border border-[#00F5FF]/20'
-                }`}
-              >
-                <tab.icon className="w-4 h-4" />
-                {tab.label}
-              </button>
-            ))}
-          </div>
+          {canView === false ? (
+            <div className="bg-gradient-to-br from-[#011627] to-[#0A2A3A] border border-[#f87272]/30 rounded-xl p-8 text-center mt-8 shadow-2xl">
+              <div className="w-16 h-16 rounded-full bg-[#f87272]/20 flex items-center justify-center mx-auto mb-4">
+                <Target className="w-8 h-8 text-[#f87272]" />
+              </div>
+              <h2 className="text-2xl font-bold text-[#FFFFFF] mb-2">{t('predictions.limitReached')}</h2>
+              <a href="#/pricing" className="btn bg-[#CCFF00] hover:bg-[#a6d100] text-[#011627] mt-6 border-none font-bold">
+                {t('predictions.upgradeToUnlock')}
+              </a>
+            </div>
+          ) : (
+            <>
+              <div className="flex gap-2 mb-6 overflow-x-auto pb-2">
+                {tabs.map((tab) => (
+                  <button
+                    key={tab.id}
+                    onClick={() => setActiveTab(tab.id)}
+                    className={`flex items-center gap-2 px-6 py-3 rounded-lg font-medium transition-all whitespace-nowrap ${
+                      activeTab === tab.id
+                        ? 'bg-[#CCFF00] text-[#011627]'
+                        : 'bg-[#011627] text-[#00F5FF] hover:text-[#FFFFFF] border border-[#00F5FF]/20'
+                    }`}
+                  >
+                    <tab.icon className="w-4 h-4" />
+                    {tab.label}
+                  </button>
+                ))}
+              </div>
 
           {/* Tab Content */}
           <div className="grid lg:grid-cols-3 gap-8">
@@ -192,7 +220,7 @@ export function MatchDetail({ matchId, onLogout }: MatchDetailProps) {
                     animate={{ opacity: 1, y: 0 }}
                     className="bg-gradient-to-br from-[#011627] to-[#0A2A3A] border border-[#00F5FF]/10 rounded-xl p-6"
                   >
-                    <h3 className="text-lg font-bold text-[#FFFFFF] mb-6">Match Probabilities</h3>
+                    <h3 className="text-lg font-bold text-[#FFFFFF] mb-6">{t('matchDetail.matchProbabilities')}</h3>
                     <div className="h-64">
                       <ResponsiveContainer width="100%" height="100%">
                         <BarChart data={probabilityData} layout="vertical">
@@ -220,7 +248,7 @@ export function MatchDetail({ matchId, onLogout }: MatchDetailProps) {
                             }}
                             labelStyle={{ color: '#FFFFFF' }}
                             itemStyle={{ color: '#CCFF00' }}
-                            formatter={(value: number) => [`${value}%`, 'Probability']}
+                            formatter={(value: number) => [`${value}%`, t('matchDetail.probability')]}
                           />
                           <Bar dataKey="value" radius={[0, 4, 4, 0]}>
                             {probabilityData.map((entry, index) => (
@@ -239,32 +267,32 @@ export function MatchDetail({ matchId, onLogout }: MatchDetailProps) {
                     transition={{ delay: 0.1 }}
                     className="bg-gradient-to-br from-[#011627] to-[#0A2A3A] border border-[#00F5FF]/10 rounded-xl p-6"
                   >
-                    <h3 className="text-lg font-bold text-[#FFFFFF] mb-6">Odds Comparison</h3>
+                    <h3 className="text-lg font-bold text-[#FFFFFF] mb-6">{t('matchDetail.oddsComparison')}</h3>
                     <div className="overflow-x-auto">
                       <table className="w-full">
                         <thead>
                           <tr className="text-[#00F5FF] text-sm">
-                            <th className="text-left py-3">Odds Type</th>
+                            <th className="text-left py-3">{t('matchDetail.oddsType')}</th>
                             <th className="text-center py-3">{match.homeTeam}</th>
-                            <th className="text-center py-3">Draw</th>
+                            <th className="text-center py-3">{t('matchDetail.draw')}</th>
                             <th className="text-center py-3">{match.awayTeam}</th>
                           </tr>
                         </thead>
                         <tbody className="divide-y divide-[#00F5FF]/10">
                           <tr>
-                            <td className="py-4 text-[#FFFFFF]">Market Odds</td>
+                            <td className="py-4 text-[#FFFFFF]">{t('matchDetail.marketOdds')}</td>
                             <td className="py-4 text-center text-[#00F5FF]">{match.marketOdds.home}</td>
                             <td className="py-4 text-center text-[#00F5FF]">{match.marketOdds.draw}</td>
                             <td className="py-4 text-center text-[#00F5FF]">{match.marketOdds.away}</td>
                           </tr>
                           <tr>
-                            <td className="py-4 text-[#FFFFFF]">Fair Odds (AI)</td>
+                            <td className="py-4 text-[#FFFFFF]">{t('matchDetail.fairOdds')}</td>
                             <td className="py-4 text-center text-[#CCFF00] font-bold">{match.fairOdds.home}</td>
                             <td className="py-4 text-center text-[#CCFF00] font-bold">{match.fairOdds.draw}</td>
                             <td className="py-4 text-center text-[#CCFF00] font-bold">{match.fairOdds.away}</td>
                           </tr>
                           <tr>
-                            <td className="py-4 text-[#FFFFFF]">Value</td>
+                            <td className="py-4 text-[#FFFFFF]">{t('matchDetail.value')}</td>
                             <td className="py-4 text-center">
                               <span className="px-2 py-1 bg-green-500/10 text-green-400 text-sm rounded">
                                 +{((match.marketOdds.home - match.fairOdds.home) / match.fairOdds.home * 100).toFixed(1)}%
@@ -299,8 +327,8 @@ export function MatchDetail({ matchId, onLogout }: MatchDetailProps) {
                       <Brain className="w-5 h-5 text-[#CCFF00]" />
                     </div>
                     <div>
-                      <h3 className="text-lg font-bold text-[#FFFFFF]">AI Analysis</h3>
-                      <p className="text-[#00F5FF] text-sm">Machine learning insights</p>
+                      <h3 className="text-lg font-bold text-[#FFFFFF]">{t('matchDetail.aiAnalysis')}</h3>
+                      <p className="text-[#00F5FF] text-sm">{t('matchDetail.mlInsights')}</p>
                     </div>
                   </div>
                   <div className="prose prose-invert max-w-none">
@@ -317,23 +345,23 @@ export function MatchDetail({ matchId, onLogout }: MatchDetailProps) {
                   animate={{ opacity: 1, y: 0 }}
                   className="bg-gradient-to-br from-[#011627] to-[#0A2A3A] border border-[#00F5FF]/10 rounded-xl p-6"
                 >
-                  <h3 className="text-lg font-bold text-[#FFFFFF] mb-6">Head-to-Head Record</h3>
+                  <h3 className="text-lg font-bold text-[#FFFFFF] mb-6">{t('matchDetail.h2hRecord')}</h3>
                   <div className="grid grid-cols-3 gap-4 mb-6">
                     <div className="text-center p-4 bg-[#0A2A3A] rounded-xl">
                       <p className="text-3xl font-bold text-[#CCFF00]">{match.h2h.homeWins}</p>
-                      <p className="text-[#00F5FF] text-sm">{match.homeTeam} Wins</p>
+                      <p className="text-[#00F5FF] text-sm">{match.homeTeam} {t('matchDetail.wins')}</p>
                     </div>
                     <div className="text-center p-4 bg-[#0A2A3A] rounded-xl">
                       <p className="text-3xl font-bold text-[#00F5FF]">{match.h2h.draws}</p>
-                      <p className="text-[#00F5FF] text-sm">Draws</p>
+                      <p className="text-[#00F5FF] text-sm">{t('matchDetail.draws')}</p>
                     </div>
                     <div className="text-center p-4 bg-[#0A2A3A] rounded-xl">
                       <p className="text-3xl font-bold text-[#00F5FF]/70">{match.h2h.awayWins}</p>
-                      <p className="text-[#00F5FF] text-sm">{match.awayTeam} Wins</p>
+                      <p className="text-[#00F5FF] text-sm">{match.awayTeam} {t('matchDetail.wins')}</p>
                     </div>
                   </div>
                   <p className="text-[#00F5FF] text-sm text-center">
-                    Based on last {match.h2h.total} meetings
+                    {t('matchDetail.basedOnLast')} {match.h2h.total} {t('matchDetail.meetings')}
                   </p>
                 </motion.div>
               )}
@@ -349,23 +377,23 @@ export function MatchDetail({ matchId, onLogout }: MatchDetailProps) {
               >
                 <div className="flex items-center gap-3 mb-4">
                   <Target className="w-5 h-5 text-[#CCFF00]" />
-                  <h3 className="text-lg font-bold text-[#FFFFFF]">Kelly Staking</h3>
+                  <h3 className="text-lg font-bold text-[#FFFFFF]">{t('matchDetail.kellyStaking')}</h3>
                 </div>
                 <div className="text-center py-4">
                   <p className="text-5xl font-bold text-[#CCFF00] mb-2">{match.kellyStake}%</p>
-                  <p className="text-[#00F5FF] text-sm">Recommended stake</p>
+                  <p className="text-[#00F5FF] text-sm">{t('matchDetail.recommendedStake')}</p>
                 </div>
                 <div className="space-y-3 mt-4">
                   <div className="flex justify-between text-sm">
-                    <span className="text-[#00F5FF]">Edge</span>
+                    <span className="text-[#00F5FF]">{t('matchDetail.edge')}</span>
                     <span className="text-green-400 font-medium">+{match.edge}%</span>
                   </div>
                   <div className="flex justify-between text-sm">
-                    <span className="text-[#00F5FF]">Confidence</span>
+                    <span className="text-[#00F5FF]">{t('matchDetail.confidence')}</span>
                     <span className="text-[#CCFF00] font-medium">{match.confidence}%</span>
                   </div>
                   <div className="flex justify-between text-sm">
-                    <span className="text-[#00F5FF]">Expected Value</span>
+                    <span className="text-[#00F5FF]">{t('matchDetail.expectedValue')}</span>
                     <span className="text-green-400 font-medium">+{(match.edge * 0.5).toFixed(2)}%</span>
                   </div>
                 </div>
@@ -377,7 +405,7 @@ export function MatchDetail({ matchId, onLogout }: MatchDetailProps) {
                       : 'bg-[#CCFF00] text-[#011627] hover:bg-[#d4b43a]'
                   }`}
                 >
-                  {isTracking ? 'Bet Tracked' : 'Track This Bet'}
+                  {isTracking ? t('matchDetail.betTracked') : t('matchDetail.trackThisBet')}
                 </button>
               </motion.div>
 
@@ -388,32 +416,34 @@ export function MatchDetail({ matchId, onLogout }: MatchDetailProps) {
                 transition={{ delay: 0.1 }}
                 className="bg-gradient-to-br from-[#011627] to-[#0A2A3A] border border-[#00F5FF]/10 rounded-xl p-6"
               >
-                <h3 className="text-lg font-bold text-[#FFFFFF] mb-4">Key Stats</h3>
+                <h3 className="text-lg font-bold text-[#FFFFFF] mb-4">{t('matchDetail.keyStats')}</h3>
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
-                    <span className="text-[#00F5FF]">Home xG</span>
+                    <span className="text-[#00F5FF]">{t('matchDetail.homeXg')}</span>
                     <span className="text-[#FFFFFF] font-medium">2.1</span>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="text-[#00F5FF]">Away xG</span>
+                    <span className="text-[#00F5FF]">{t('matchDetail.awayXg')}</span>
                     <span className="text-[#FFFFFF] font-medium">1.3</span>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="text-[#00F5FF]">Home Win %</span>
+                    <span className="text-[#00F5FF]">{t('matchDetail.homeWinPercent')}</span>
                     <span className="text-[#CCFF00] font-medium">{match.homeProb}%</span>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="text-[#00F5FF]">BTTS %</span>
+                    <span className="text-[#00F5FF]">{t('matchDetail.bttsPercent')}</span>
                     <span className="text-[#FFFFFF] font-medium">62%</span>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="text-[#00F5FF]">Over 2.5 %</span>
+                    <span className="text-[#00F5FF]">{t('matchDetail.over25Percent')}</span>
                     <span className="text-[#FFFFFF] font-medium">58%</span>
                   </div>
                 </div>
               </motion.div>
             </div>
           </div>
+          </>
+          )}
         </div>
       </div>
     </div>

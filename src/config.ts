@@ -17,13 +17,13 @@ export interface HeroConfig {
 }
 
 export const heroConfig: HeroConfig = {
-  subtitle: "AI-Powered Football Predictions",
-  titleLine1: "BEAT THE",
-  titleLine2: "MARKET",
-  tagline: "Machine Learning · Value Detection · Kelly Staking",
-  badgeText: "73% Win Rate on Value Bets",
-  ctaPrimary: "Start Free Trial",
-  ctaSecondary: "View Predictions",
+  subtitle: "hero.subtitle",
+  titleLine1: "hero.titleLine1",
+  titleLine2: "hero.titleLine2",
+  tagline: "hero.tagline",
+  badgeText: "hero.badgeText",
+  ctaPrimary: "hero.ctaPrimary",
+  ctaSecondary: "hero.ctaSecondary",
   heroImage: "images/hero_football.jpg",
   floatingImages: ["images/football_1.png", "images/football_2.png"],
 };
